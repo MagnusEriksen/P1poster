@@ -3,19 +3,28 @@ class button{
 
 float x;
 float y;
-int size;
+int bWidth;
+int bHeight;
 
-button(float tempX, float tempY, int tempSize){
+button(int tempX, int tempY, int tempSize){
 
 x=tempX;
 y=tempY;
-size=tempSize;
-
+bWidth=tempSize;
+bHeight=tempSize;
 }
-  
+
+button(int tempX, int tempY, int tempWidth, int tempHeight){
+
+x=tempX;
+y=tempY;
+bWidth=tempWidth;
+bHeight=tempHeight;
+}
+
 void create(){
 fill(255);
-rect(x,y,size,size);
+rect(x,y,bWidth, bHeight);
 
 }
 
