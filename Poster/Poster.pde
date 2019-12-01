@@ -1,3 +1,5 @@
+//Menu Buttons in an array is inspired by Chrisir on proccessing forums
+
 PImage cheerios;
 PImage placeholderDraw;
 PImage infoPage; 
@@ -8,6 +10,7 @@ boolean page3;
 boolean highlight1;
 boolean highlight2;
 button[] buttons = new button[10];
+button[] menuButtons = new button[6];
 int button0_X;
 int button0_Y;
 int button0_Size;
@@ -16,8 +19,9 @@ int button1_Y;
 int button1_Size;
 int menuButtonX;
 int menuButtonY;
-int menuButtonWidth;
-int menuButtonHeight;
+int menuButtonW;
+int menuButtonH;
+int spacing;//spacing between menu buttons
 int start; 
 int timer;
 int timerValue=100000; //milliseconds before poster returns to the front page
@@ -35,15 +39,23 @@ void setup () {
   button1_X=width/3;
   button1_Y=height/3;
   button1_Size=100;
-  menuButtonWidth=100;
-  menuButtonHeight=50;
-  menuButtonX=width-menuButtonWidth;
+  menuButtonW=100;
+  menuButtonH=50;
+  menuButtonX=width-menuButtonW;
   menuButtonY=0;
+  spacing = 100;
   size (967, 725);
   buttons[0]= new button(button0_X, button0_Y, button0_Size);   
   buttons[1]= new button(button1_X, button1_Y, button1_Size);
-  buttons[2]= new button(menuButtonX, menuButtonY, menuButtonWidth, menuButtonHeight);
-  buttons[3] = new button(menuButtonX, menuButtonY+menuButtonHeight, menuButtonWidth, menuButtonHeight);
+
+  //old menu buttons
+  //buttons[2]= new button(menuButtonX, menuButtonY, menuButtonW, menuButtonH);
+  //buttons[3] = new button(menuButtonX, menuButtonY+menuButtonH, menuButtonW, menuButtonH);
+
+  //loop for menu buttons
+  for (int i = 0; i < menuButtons.length; i++) {
+    menuButtons[i] = new button(menuButtonX, i*spacing, menuButtonW, menuButtonH, i);
+  }
 }
 
 void draw() {
@@ -57,29 +69,38 @@ void draw() {
     buttons[1].create();
   } else if (page3 ==true) {
     image(infoPage, 0, 0, width, height);
-    buttons[2].create();
-    buttons[3].create();  
- if(highlight1==true){
-   image(highlight,350,300,300,300);
- }else if (highlight2==true){
- image(highlight,540,-50,300,300);
- }
-}
 
-  //timer to return to front page when X seconds have passed
-  if (page1==false) {
-    timer=millis()-start;  
-    int countdown = (timerValue - timer)/1000; //for visual countdown shown in whole seconds
-    text(countdown, width/2, height/2);//placeholder text so we can see timer
-    if (timer>timerValue) {
-      page1=true;
-      page2=false;
-      page3=false;
-      start=millis();
+    //old menu buttons code
+    //buttons[2].create();
+    //buttons[3].create();
+
+    //displaying menu buttons with another array
+      for (button menuButton : menuButtons) {
+      menuButton.update();
+      menuButton.create();
     }
+    
+  }
+
+  if (highlight1==true) {
+    image(highlight, 350, 300, 300, 300);
+  } else if (highlight2==true) {
+    image(highlight, 540, -50, 300, 300);
+  }
+
+//timer to return to front page when X seconds have passed
+if (page1==false) {
+  timer=millis()-start;  
+  int countdown = (timerValue - timer)/1000; //for visual countdown shown in whole seconds
+  text(countdown, width/2, height/2);//placeholder text so we can see timer
+  if (timer>timerValue) {
+    page1=true;
+    page2=false;
+    page3=false;
+    start=millis();
   }
 }
-
+}
 
 void mousePressed() {
 
@@ -97,14 +118,46 @@ void mousePressed() {
       page2=false; //leave page 2
       page3=true; //go to page 3
     }
-  }else if (page3==true){
- if (mouseX>menuButtonX && mouseX<menuButtonX+menuButtonWidth && mouseY>menuButtonY && mouseY<menuButtonY+menuButtonHeight){
- highlight1=true;
- highlight2=false;
- }else if(mouseX>menuButtonX && mouseX<menuButtonX+menuButtonWidth && mouseY>menuButtonY+menuButtonHeight && mouseY<menuButtonY+menuButtonHeight+menuButtonHeight){
- highlight1=false;
- highlight2=true;
- }
+  } else if (page3==true) {
 
+
+    }
+    
+    for (button menuButton : menuButtons) {
+      menuButton.press();
+      if (menuButton.pressed==true) {
+        evalButton(menuButton); 
+
+  }
+
+
+
+  /* old code for menu buttons clickability, works but requires individual code for each button/ keeping code untill I get the array methode to work  
+   if (mouseX>menuButtonX && mouseX<menuButtonX+menuButtonW && mouseY>menuButtonY && mouseY<menuButtonY+menuButtonH){
+   highlight1=true;
+   highlight2=false;
+   }else if(mouseX>menuButtonX && mouseX<menuButtonX+menuButtonW && mouseY>menuButtonY+menuButtonH && mouseY<menuButtonY+menuButtonH+menuButtonH){
+   highlight1=false;
+   highlight2=true;
+   }*/
+}
+  }
+  
+  void mouseReleased() {
+  for (button menuButton : menuButtons) {
+    menuButton.release();
+  }
+}
+
+
+//function for calling elements in array and giving them different functions
+void evalButton(button menuButton) {
+  //println(menuButton.index);
+  if (menuButton.index==0) {
+    highlight1=true;
+    highlight2=false;
+  } else if (menuButton.index==1) {
+    highlight2=true;
+    highlight1=false;
   }
 }
