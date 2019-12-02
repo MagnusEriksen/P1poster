@@ -5,7 +5,6 @@ class button {
   float y;
   int w;
   int h;
-  boolean on;
 
   boolean over = false; // True when the mouse is over
   boolean pressed = false; // True when the mouse is over and pressed
@@ -18,7 +17,6 @@ class button {
     y=tempY;
     w=tempSize;
     h=tempSize;
-    on = false; //button starts as off
   }
 
   button(int tempX, int tempY, int tempWidth, int tempHeight, int tempI) {
@@ -29,7 +27,6 @@ class button {
     h=tempHeight;
     index=tempI;
 
-    on = false; //button starts as off
   }
 
   void create() {
@@ -44,13 +41,8 @@ class button {
     fill(255);
     }
     rect(x, y, w, h);
-
-
-
-    if (on==true) {  
-      //highlight1 = true;
-    }
-  }
+}
+  
   /* old code for mouse location detection
    void click(int mx, int my) {
    // Check to see if a point is inside the rectangle
