@@ -74,7 +74,10 @@ void draw() {
     //buttons[2].create();
     //buttons[3].create();
 
-    //displaying menu buttons with another array
+   /*displaying menu buttons. The for loop allows us to iterate over each element in the menuButtons array 
+    as the datatype (button class) has been defined as menuButton. This name is then assigned to each element in 
+    the origional array with the loop. The create and update draws the functions in the page.
+    */
       for (button menuButton : menuButtons) {
       menuButton.update();
       menuButton.create();
@@ -98,6 +101,8 @@ if (page1==false) {
     page2=false;
     page3=false;
     start=millis();
+    highlight1=false;
+    highlight2=false;
   }
 }
 }
@@ -122,7 +127,8 @@ void mousePressed() {
 
 
     }
-    
+    /*Like the previouse code assigning menuButton to the array, this add the press functionality and combines it with
+    an if statement which uses a custom function to identify which button is pressed*/
     for (button menuButton : menuButtons) {
       menuButton.press();
       if (menuButton.pressed==true) {
@@ -150,7 +156,8 @@ void mousePressed() {
 }
 
 
-//function for calling elements in array and giving them different functions
+/*function for calling elements in array and giving them different functions by checking the variable index which is 
+defined as the objects place in the array. This lets us specify individual highlights to individual buttons*/
 void evalButton(button menuButton) {
   //println(menuButton.index);
   if (menuButton.index==0) {
