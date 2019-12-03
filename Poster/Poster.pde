@@ -10,6 +10,7 @@ boolean page2;
 boolean page3;
 boolean highlight1;
 boolean highlight2;
+boolean highlight1Press;
 button[] buttons = new button[10];
 button[] menuButtons = new button[6];
 button[] roundButtons = new button[6];
@@ -74,6 +75,8 @@ void setup () {
   for (int i = 0; i < menuButtons.length; i++) {
     menuButtons[i] = new button(menuButtonX, i*spacing, menuButtonW, menuButtonH, i);
   }
+
+
 }
 
 void draw() {
@@ -85,6 +88,8 @@ void draw() {
     //so that highlights are removed when returning to front page
     highlight1=false;
     highlight2=false;
+    highlight1Press=false;
+    
   } else if (page2==true) {
     image(placeholderDraw, 0, 0, width, height);
     buttons[0].display();
@@ -113,7 +118,7 @@ void draw() {
     text("text", menuButtonX+5, menuButtonY);
     text("text2", menuButtonX+5, menuButtonY+spacing);
   }
-imageMode(CENTER);//set imgae to center for highlights
+imageMode(CENTER);//set image to center for highlights
   if (highlight1==true) {
 
     fill(0);
@@ -125,8 +130,15 @@ imageMode(CENTER);//set imgae to center for highlights
   } else if (highlight2==true) {
     image(highlight, 690, 100, 300, 300);
   }
-  
+
   imageMode(CORNER);//reset back to corner for background images
+  if (highlight1Press==true){
+  
+  fill(255);
+  rect (500,500,100,300);
+  
+  }
+
 
   //timer to return to front page when X seconds have passed
   if (page1==false) {
@@ -172,7 +184,11 @@ void mousePressed() {
       evalButton(menuButton);
     }
 
+roundButtons[0].press();
 
+    if (roundButtons[0].pressed==true){
+    highlight1Press=true;
+    }
 
     /* old code for menu buttons clickability, works but requires individual code for each button/ keeping code untill I get the array methode to work  
      if (mouseX>menuButtonX && mouseX<menuButtonX+menuButtonW && mouseY>menuButtonY && mouseY<menuButtonY+menuButtonH){
