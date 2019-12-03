@@ -12,7 +12,7 @@ boolean highlight1;
 boolean highlight2;
 boolean highlight1Press;
 button[] buttons = new button[10];
-button[] menuButtons = new button[6];
+button[] menuButtons = new button[4];
 button[] roundButtons = new button[6];
 int button0_X;
 int button0_Y;
@@ -37,7 +37,7 @@ void setup () {
   page3=true; //which page we start at (useful for testing individual pages code)
   cheerios=loadImage ("cheerios.png");
   placeholderDraw=loadImage("Dåse.jpg");
-  infoPage=loadImage("hylde.png");
+  infoPage=loadImage("hyldemenu.jpg");
   highlight = loadImage("highlight.png");
   TestText = loadFont("TestText.vlw");
   
@@ -50,17 +50,17 @@ void setup () {
   button1_X=width/3;
   button1_Y=height/3;
   button1_Size=100;
-  menuButtonW=100;
-  menuButtonH=50;
-  menuButtonX=width-menuButtonW;
-  menuButtonY=45;
-  spacing = 100;
+  menuButtonW=245;
+  menuButtonH=122;
+  menuButtonX=width-menuButtonW-55;
+  menuButtonY=73;
+  spacing = menuButtonH+70;
 
   highlightSize=300;
   highlight1X=500;
   highlight1Y=450;
 
-  size (967, 725);
+  size (1200, 800);
   buttons[0]= new button(button0_X, button0_Y, button0_Size, button1_Size);   
   buttons[1]= new button(button1_X, button1_Y, button1_Size, button1_Size);
   roundButtons[0] = new button(highlight1X, highlight1Y, highlightSize/1.3);
@@ -73,7 +73,7 @@ void setup () {
 
   //loop for menu buttons
   for (int i = 0; i < menuButtons.length; i++) {
-    menuButtons[i] = new button(menuButtonX, i*spacing, menuButtonW, menuButtonH, i);
+    menuButtons[i] = new button(menuButtonX, menuButtonY+(i*spacing), menuButtonW, menuButtonH, i);
   }
 
 
@@ -110,7 +110,7 @@ void draw() {
      */
     for (button menuButton : menuButtons) {
       menuButton.update();
-      menuButton.display();
+      menuButton.transDisplay();
     }
 
     //textFont(TestText);
@@ -135,7 +135,7 @@ imageMode(CENTER);//set image to center for highlights
   if (highlight1Press==true){
   
   fill(255);
-  rect (500,500,100,300);
+  rect (600,300,100,300);
   
   }
 

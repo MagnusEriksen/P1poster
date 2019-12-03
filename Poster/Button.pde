@@ -50,6 +50,25 @@ class button {
     rect(x, y, w, h);
 }
 
+  void transDisplay() {
+noStroke();    
+    if (pressed==true){
+    fill(0,100);
+    }
+    
+    else if(over == true){
+    fill(100,100);
+    }
+    else{
+
+      fill(255,0);
+      
+    }
+   
+    rect(x, y, w, h);
+    stroke(5);
+}
+
   void roundDisplay() {
      if (pressed==true){
     fill(0);
