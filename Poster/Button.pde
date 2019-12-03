@@ -1,35 +1,42 @@
-//place holder for button
 class button {
 
   float x;
   float y;
   int w;
   int h;
+  float s;
 
   boolean over = false; // True when the mouse is over
   boolean pressed = false; // True when the mouse is over and pressed
 
   int index;
 
-  button(int tempX, int tempY, int tempSize) {
+  button(int tempX, int tempY, int tempW, int tempH) {
 
     x=tempX;
     y=tempY;
-    w=tempSize;
-    h=tempSize;
+    w=tempW;
+    h=tempH;
   }
 
-  button(int tempX, int tempY, int tempWidth, int tempHeight, int tempI) {
+  button(int tempX, int tempY, int tempW, int tempH, int tempI) {
 
     x=tempX;
     y=tempY;
-    w=tempWidth;
-    h=tempHeight;
+    w=tempW;
+    h=tempH;
     index=tempI;
 
   }
+  
+  button(float tempX, float tempY, float tempS){
+  
+    x=tempX;
+    y=tempY;
+    s=tempS;
+  }
 
-  void create() {
+  void display() {
      if (pressed==true){
     fill(0);
     }
@@ -41,6 +48,20 @@ class button {
     fill(255);
     }
     rect(x, y, w, h);
+}
+
+  void roundDisplay() {
+     if (pressed==true){
+    fill(0);
+    }
+    
+    else if(over == true){
+    fill(100);
+    }
+    else{
+    fill(255);
+    }
+    circle(x, y, s);
 }
   
   /* old code for mouse location detection
@@ -60,6 +81,16 @@ class button {
       over = false;
     }
   }
+  
+void roundUpdate(){
+
+  if (sqrt(sq(x-mouseX) + sq (y-mouseY)) < s/2) {
+    over = true;
+  } else {
+    over = false;
+  }
+  
+}
 
   boolean press() {
     if (over == true) {

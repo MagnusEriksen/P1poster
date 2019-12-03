@@ -12,6 +12,7 @@ boolean highlight1;
 boolean highlight2;
 button[] buttons = new button[10];
 button[] menuButtons = new button[6];
+button[] roundButtons = new button[6];
 int button0_X;
 int button0_Y;
 int button0_Size;
@@ -32,12 +33,14 @@ int highlight1Y;
 
 
 void setup () {
-  page1=true; //which page we start at (useful for testing individual pages code)
+  page3=true; //which page we start at (useful for testing individual pages code)
   cheerios=loadImage ("cheerios.png");
   placeholderDraw=loadImage("Dåse.jpg");
   infoPage=loadImage("hylde.png");
   highlight = loadImage("highlight.png");
   TestText = loadFont("TestText.vlw");
+  
+  imageMode(CORNER);
   start=millis();//timer is started
   //setup for buttons
   button0_X=width/2;
@@ -53,12 +56,13 @@ void setup () {
   spacing = 100;
 
   highlightSize=300;
-  highlight1X=350;
-  highlight1Y=300;
+  highlight1X=500;
+  highlight1Y=450;
 
   size (967, 725);
-  buttons[0]= new button(button0_X, button0_Y, button0_Size);   
-  buttons[1]= new button(button1_X, button1_Y, button1_Size);
+  buttons[0]= new button(button0_X, button0_Y, button0_Size, button1_Size);   
+  buttons[1]= new button(button1_X, button1_Y, button1_Size, button1_Size);
+  roundButtons[0] = new button(highlight1X, highlight1Y, highlightSize/1.3);
 
 
 
@@ -83,25 +87,25 @@ void draw() {
     highlight2=false;
   } else if (page2==true) {
     image(placeholderDraw, 0, 0, width, height);
-    buttons[0].create();
+    buttons[0].display();
     buttons[0].update();
-    buttons[1].create();
+    buttons[1].display();
     buttons[1].update();
   } else if (page3 ==true) {
     image(infoPage, 0, 0, width, height);
 
 
     //old menu buttons code
-    //buttons[2].create();
-    //buttons[3].create();
+    //buttons[2].display();
+    //buttons[3].display();
 
     /*displaying menu buttons. The for loop allows us to iterate over each element in the menuButtons array 
      as the datatype (button class) has been defined as menuButton. This name is then assigned to each element in 
-     the origional array with the loop. The create and update draws the functions in the page.
+     the origional array with the loop. The display and update draws the functions in the page.
      */
     for (button menuButton : menuButtons) {
       menuButton.update();
-      menuButton.create();
+      menuButton.display();
     }
 
     //textFont(TestText);
@@ -109,18 +113,20 @@ void draw() {
     text("text", menuButtonX+5, menuButtonY);
     text("text2", menuButtonX+5, menuButtonY+spacing);
   }
-
+imageMode(CENTER);//set imgae to center for highlights
   if (highlight1==true) {
-    ellipseMode(CORNER);
 
-    //test circle for visually seeing clickable area on highlight COMMENT OUT WHEN NOT NEEDED
     fill(0);
-    circle(highlight1X*1.1, highlight1Y*1.1, highlightSize/1.3);
-
+    
+    //roundbuttons display is only used to check location of buttons COMMENT OUT WHEN NOT NEEDED
+    roundButtons[0].roundDisplay();
+    roundButtons[0].roundUpdate();
     image(highlight, highlight1X, highlight1Y, highlightSize, highlightSize);
   } else if (highlight2==true) {
-    image(highlight, 540, -50, 300, 300);
+    image(highlight, 690, 100, 300, 300);
   }
+  
+  imageMode(CORNER);//reset back to corner for background images
 
   //timer to return to front page when X seconds have passed
   if (page1==false) {
@@ -183,6 +189,7 @@ void mouseReleased() {
   for (button menuButton : menuButtons) {
     menuButton.release();
     buttons[0].release();
+    buttons[1].release();
   }
 }
 
