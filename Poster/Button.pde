@@ -9,9 +9,9 @@ class button {
   boolean over = false; // True when the mouse is over
   boolean pressed = false; // True when the mouse is over and pressed
 
-  int index;
+  int index; //variable for storing array buttons index value
 
-  button(int tempX, int tempY, int tempW, int tempH) {
+  button(int tempX, int tempY, int tempW, int tempH) { //non array button constructer
 
     x=tempX;
     y=tempY;
@@ -19,70 +19,59 @@ class button {
     h=tempH;
   }
 
-  button(int tempX, int tempY, int tempW, int tempH, int tempI) {
+  button(int tempX, int tempY, int tempW, int tempH, int tempI) { //array button constructer - int tempI should be array size
 
     x=tempX;
     y=tempY;
     w=tempW;
     h=tempH;
     index=tempI;
-
   }
-  
-  button(float tempX, float tempY, float tempS){
-  
+
+  button(float tempX, float tempY, float tempS) { //circular button constructer
+
     x=tempX;
     y=tempY;
     s=tempS;
   }
 
-  void display() {
-     if (pressed==true){
-    fill(0);
-    }
-    
-    else if(over == true){
-    fill(100);
-    }
-    else{
-    fill(255);
+  void display() { //normal buttons
+    if (pressed==true) {
+      fill(0);
+    } else if (over == true) {
+      fill(100);
+    } else {
+      fill(255);
     }
     rect(x, y, w, h);
-}
+  }
 
-  void transDisplay() {
-noStroke();    
-    if (pressed==true){
-    fill(0,100);
-    }
-    
-    else if(over == true){
-    fill(100,100);
-    }
-    else{
+  void transDisplay() { //for transparent buttons
+    noStroke();    
+    if (pressed==true) {
+      fill(0, 100);
+    } else if (over == true) {
+      fill(100, 100);
+    } else {
 
-      fill(255,0);
-      
+      fill(255, 0);
     }
-   
+
     rect(x, y, w, h);
     stroke(5);
-}
+  }
 
-  void roundDisplay() {
-     if (pressed==true){
-    fill(0);
-    }
-    
-    else if(over == true){
-    fill(100);
-    }
-    else{
-    fill(255);
+  void roundDisplay() { //circular buttons
+    if (pressed==true) {
+      fill(0);
+    } else if (over == true) {
+      fill(100);
+    } else {
+      fill(255);
     }
     circle(x, y, s);
-}
-  
+  }
+
   /* old code for mouse location detection
    void click(int mx, int my) {
    // Check to see if a point is inside the rectangle
@@ -92,7 +81,7 @@ noStroke();
    }*/
 
   // Updates the over field every frame
-  void update() {
+  void update() {//for rectangular area
     if ((mouseX >= x) && (mouseX <= x + w) &&
       (mouseY >= y) && (mouseY <= y + h)) {
       over = true;
@@ -100,18 +89,17 @@ noStroke();
       over = false;
     }
   }
-  
-void roundUpdate(){
 
-  if (sqrt(sq(x-mouseX) + sq (y-mouseY)) < s/2) {
-    over = true;
-  } else {
-    over = false;
+  void roundUpdate() {//for circular area
+
+    if (sqrt(sq(x-mouseX) + sq (y-mouseY)) < s/2) {
+      over = true;
+    } else {
+      over = false;
+    }
   }
-  
-}
 
-  boolean press() {
+  boolean press() { //boolean for when the mouse button is pressed and over update area
     if (over == true) {
       pressed = true;
       return true;
