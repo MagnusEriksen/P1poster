@@ -4,8 +4,10 @@ PImage cheerios;
 PImage placeholderDraw;
 PImage infoPage; 
 PImage highlight;
+PImage nutrition;
+PImage allergies;
 PFont TestText;
-boolean page1, page2, page3;
+boolean page1, page2, page3, pageNutrition, pageAllergies;
 boolean highlight1, highlight2;
 boolean highlight1Press;
 button[] buttons = new button[10];
@@ -26,12 +28,13 @@ void setup () {
   page1=true; //which page we start at (useful for testing individual pages code)
   cheerios=loadImage ("cheerios.png");
   placeholderDraw=loadImage("Dåse.jpg");
-  infoPage=loadImage("hyldemenu.jpg");
+  infoPage=loadImage("hyldemenu.png");
   highlight = loadImage("highlight.png");
   TestText = loadFont("TestText.vlw");
-
+  nutrition = loadImage("hyldenmenu.png");
+  allergies = loadImage("hyldeamenu.png");
   imageMode(CORNER);
-  size (1200, 800);
+  size (1503, 622);
   start=millis();//timer is started
 
   //setup for buttons
@@ -101,6 +104,10 @@ void draw() {
       menuButton.transDisplay();
     }
 
+  }else if (pageNutrition==true){
+  image(nutrition, 0, 0, width, height);
+  }else if (pageAllergies==true){
+  image(allergies, 0, 0, width, height);
   }
   
   imageMode(CENTER);//set image to center for highlights
