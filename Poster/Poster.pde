@@ -7,7 +7,7 @@ PImage highlight;
 PImage nutrition;
 PImage allergies;
 PImage gYogurt0;
-PImage gYogurt2;
+PImage gYogurt1;
 PImage vanilla0;
 PImage vanilla1;
 PFont TestText;
@@ -25,7 +25,7 @@ int start;
 int timer;
 int timerValue=10000; //milliseconds before poster returns to the front page
 int highlightSize;
-int highlight0X, highlight0Y, highlight1X, highlight1Y;
+int highlight0X, highlight0Y, highlight1X, highlight1Y, highlight2X, highlight2Y;
 
 
 void setup () {
@@ -38,7 +38,9 @@ void setup () {
   nutrition = loadImage("hyldenmenu.png");
   allergies = loadImage("hyldeamenu.png");
   gYogurt0 = loadImage("haandg.png");
-  gYogurt2 = loadImage("infog.png");
+  gYogurt1 = loadImage("infog.png");
+  vanilla0= loadImage("haandvi.png");
+  vanilla1= loadImage("hyldevi.png");
   imageMode(CORNER);
   size (1503, 622);
   start=millis();//timer is started
@@ -62,6 +64,8 @@ void setup () {
   highlight0Y=255;
   highlight1X=720;
   highlight1Y=560;
+  highlight2X=555;
+  highlight2Y=400;
 
   //non loop buttons
   buttons[0]= new button(button0_X, button0_Y, button0_Size, button1_Size);   
@@ -69,6 +73,7 @@ void setup () {
   buttons[2]= new button(width-60, 40, 30, 30);
   roundButtons[0] = new button(highlight0X, highlight0Y, highlightSize/1.3);
   roundButtons[1] = new button(highlight1X, highlight1Y, highlightSize/1.3);
+  roundButtons[2] = new button(highlight2X, highlight2Y, highlightSize/1.3);
 
   //loop for menu buttons
   for (int i = 0; i < menuButtons.length; i++) {
@@ -77,12 +82,9 @@ void setup () {
 }
 
 void draw() {
-
+  println(vanillaPress);
   if (page1 ==true) {//Front Page
     image(cheerios, 0, 0, width, height);
-
-
-
     page2 = false;
     page3 = false;
     pageNutrition = false;
@@ -97,11 +99,11 @@ void draw() {
     image(infoPage, 0, 0, width, height);
   } else if (pageNutrition==true) {
     image(nutrition, 0, 0, width, height);
-    fill(255, 0, 0);
-    buttons[2].display();
-    buttons[2].update();
   } else if (pageAllergies==true) {
     image(allergies, 0, 0, width, height);
+  }
+
+  if (pageNutrition==true||pageAllergies==true) {
     fill(255, 0, 0);
     buttons[2].display();
     buttons[2].update();
@@ -124,20 +126,27 @@ void draw() {
     //roundbuttons display is only used to check location of buttons COMMENT OUT WHEN NOT NEEDED
     //roundButtons[0].roundDisplay();
     roundButtons[0].roundUpdate();
-    vanillaPress=false;
     image(highlight, highlight0X, highlight0Y, highlightSize, highlightSize);
   } else if (highlight1==true) {
     image(highlight, highlight1X, highlight1Y, highlightSize, highlightSize);
     gYogurtPress=false;
+  } else if (highlight2==true) {
+    //roundButtons[2].roundDisplay();
+    roundButtons[2].roundUpdate();
+    image(highlight, highlight2X, highlight2Y, highlightSize, highlightSize);
   }
   imageMode(CORNER);//reset back to corner for background images
 
   //for when highlight buttons are pressed
   if (gYogurtPress==true) {
 
-    fill(255);
+
     image (gYogurt0, 0, 0);
-    image (gYogurt2, 0,0);
+    image (gYogurt1, 0, 0);
+  }
+  if (vanillaPress==true) {
+    image (vanilla0, 0, 0);
+    image (vanilla1, 0, 0);
   }
 
 
@@ -156,21 +165,15 @@ void draw() {
     }
   }
   //for removing highlights and menus when not on correct page
-    if (page3==false){
+  if (page3==false) {
     highlight0=false;
     highlight1=false;
-    highlight2=false;
-    highlight3=false;
     gYogurtPress=false;
-    vanillaPress=false;
   }
-  if (pageNutrition==false){
-  
+  if (pageNutrition==false) {
   }
-  if(pageAllergies==true){
-  
+  if (pageAllergies==true) {
   }
-  
 }
 
 void mousePressed() {
@@ -191,27 +194,26 @@ void mousePressed() {
       page2=false; //leave page 2
       page3=true; //go to page 3
     }
-  }else if(page3==true&&pageNutrition==false&&pageAllergies==false){
-  
-        roundButtons[0].press();
-      if (roundButtons[0].pressed==true) {
-        gYogurtPress=true;
-      }
-      if (roundButtons[1].pressed==true) {
-        vanillaPress=true;
-      }
-  }
-  else if (pageNutrition==true) {
+  } else if (page3==true&&pageNutrition==false&&pageAllergies==false) {
+
+    roundButtons[0].press();
+    if (roundButtons[0].pressed==true) {
+      gYogurtPress=true;
+    }
+  } else if (pageNutrition==true||pageAllergies==true) {
     buttons[2].press();
     if (buttons[2].pressed==true) {
       pageNutrition=false;
-      page3=true;
-    }
-  } else if (pageAllergies==true) {
-    buttons[2].press();
-    if (buttons[2].pressed==true) {
       pageAllergies=false;
       page3=true;
+      highlight2=false;
+      vanillaPress=false;
+    }
+  } 
+  if (pageNutrition==true||pageAllergies==true) {
+    roundButtons[2].press();
+    if (roundButtons[2].pressed==true) {
+      vanillaPress=true;
     }
   }
   if (page3==true||pageNutrition==true||pageAllergies==true) {
@@ -231,10 +233,10 @@ void mouseReleased() {
   for (button menuButton : menuButtons) {
     menuButton.release();
   }
-    buttons[0].release();
-    buttons[1].release();
-    buttons[2].release();
-
+  buttons[0].release();
+  buttons[1].release();
+  buttons[2].release();
+  roundButtons[2].release();
 }
 
 
@@ -246,7 +248,6 @@ void evalButton(button menuButton) {
   if (menuButton.index==0 && page3==true) {
     page3 = false;
     pageNutrition = true;
-
   } else if (menuButton.index==1 && page3==true) {
     highlight0=true;
     highlight1=false;
@@ -256,6 +257,9 @@ void evalButton(button menuButton) {
   } else if (menuButton.index==3 && page3==true) {
     page3 = false;
     pageAllergies = true;
-
+  } else if (menuButton.index==3 && pageAllergies==true) {
+    highlight2=true;
+  } else if (menuButton.index==2 && pageNutrition==true) {
+    highlight2=true;
   }
 }
