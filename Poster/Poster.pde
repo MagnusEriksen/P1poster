@@ -101,10 +101,6 @@ void draw() {
       menuButton.transDisplay();
     }
 
-    //textFont(TestText);
-    fill(255, 0, 0);
-    text("text", menuButtonX+5, menuButtonY);
-    text("text2", menuButtonX+5, menuButtonY+spacing);
   }
   
   imageMode(CENTER);//set image to center for highlights
@@ -138,7 +134,9 @@ void draw() {
     textFont(TestText);
     timer=millis()-start;  
     int countdown = (timerValue - timer)/1000; //for visual countdown shown in whole seconds
-    text(countdown, width/2, height);//placeholder text so we can see timer
+    if(countdown<5){
+    text(countdown, width/2, 50);//placeholder text so we can see timer
+    }
     if (timer>timerValue) {
       page1=true;
       page2=false;
