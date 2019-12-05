@@ -37,11 +37,11 @@ class button {
 
   void display() { //normal buttons
     if (pressed==true) {
-      fill(0);
+      //fill(0);
     } else if (over == true) {
-      fill(100);
+      fill(155,0,0);
     } else {
-      fill(255);
+
     }
     rect(x, y, w, h);
   }
@@ -51,7 +51,7 @@ class button {
     if (pressed==true) {
       fill(0, 100);
     } else if (over == true) {
-      fill(100, 100);
+      fill(255, 100);
     } else {
 
       fill(255, 0);
