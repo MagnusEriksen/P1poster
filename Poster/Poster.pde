@@ -1,9 +1,10 @@
 //Menu Buttons in an array is inspired by Chrisir on proccessing forums
 
 PImage cheerios;
-PImage placeholderDraw;
+PImage infoBackGround;
 PImage infoPage; 
 PImage highlight;
+PImage xHighlight;
 PImage nutrition;
 PImage allergies;
 PImage gYogurt0;
@@ -11,7 +12,9 @@ PImage gYogurt1;
 PImage vanilla0;
 PImage vanilla1;
 PFont TestText;
-boolean page1, page2, page3, pageNutrition, pageAllergies;
+int page;
+int cross;
+boolean cross0, cross1, cross2, cross3, cross4, cross5;
 boolean highlight0, highlight1, highlight2, highlight3;
 boolean gYogurtPress, vanillaPress;
 button[] buttons = new button[10];
@@ -25,15 +28,17 @@ int start;
 int timer;
 int timerValue=10000; //milliseconds before poster returns to the front page
 int highlightSize;
+int crossSize;
 int highlight0X, highlight0Y, highlight1X, highlight1Y, highlight2X, highlight2Y;
 
 
 void setup () {
-  page3=true; //which page we start at (useful for testing individual pages code)
+  page=2; //which page we start at (useful for testing individual pages code)
   cheerios=loadImage ("cheerios.png");
-  placeholderDraw=loadImage("Dåse.jpg");
+  infoBackGround=loadImage("hylde.png");
   infoPage=loadImage("hyldemenu.png");
   highlight = loadImage("highlight.png");
+  xHighlight = loadImage("kryds.png");
   TestText = loadFont("TestText.vlw");
   nutrition = loadImage("hyldenmenu.png");
   allergies = loadImage("hyldeamenu.png");
@@ -59,6 +64,7 @@ void setup () {
   spacing = menuButtonH+55;
 
   //setup for highlights
+  crossSize = 150;
   highlightSize=300;
   highlight0X=330;
   highlight0Y=255;
@@ -82,34 +88,37 @@ void setup () {
 }
 
 void draw() {
-  println(vanillaPress);
-  if (page1 ==true) {//Front Page
+  
+  if (page==0) {//Front Page
     image(cheerios, 0, 0, width, height);
-    page2 = false;
-    page3 = false;
-    pageNutrition = false;
-    pageAllergies = false;
-  } else if (page2==true) {//page 2
-    image(placeholderDraw, 0, 0, width, height);
+    highlight0=false;
+    highlight1=false;
+    highlight2=false;
+    cross=0;
+    gYogurtPress=false;
+    vanillaPress=false;
+   
+  } else if (page==1) {//page 2
+    image(infoBackGround, 0, 0, width, height);
     buttons[0].display();
     buttons[0].update();
     buttons[1].display();
     buttons[1].update();
-  } else if (page3 ==true) {//page 3
+  } else if (page==2) {//page 3
     image(infoPage, 0, 0, width, height);
-  } else if (pageNutrition==true) {
+  } else if (page==3) {
     image(nutrition, 0, 0, width, height);
-  } else if (pageAllergies==true) {
+  } else if (page==4) {
     image(allergies, 0, 0, width, height);
   }
 
-  if (pageNutrition==true||pageAllergies==true) {
+  if (page==3||page==4) {
     fill(255, 0, 0);
     buttons[2].display();
     buttons[2].update();
   }
 
-  if (page3 ==true||pageNutrition==true||pageAllergies==true) {
+  if (page==2||page==3||page==4) {
     /*displaying menu buttons. The for loop allows us to iterate over each element in the menuButtons array 
      as the datatype (button class) has been defined as menuButton. This name is then assigned to each element in 
      the origional array with the loop. The display and update draws the functions in the page.*/
@@ -134,6 +143,16 @@ void draw() {
     //roundButtons[2].roundDisplay();
     roundButtons[2].roundUpdate();
     image(highlight, highlight2X, highlight2Y, highlightSize, highlightSize);
+  }else if (cross==1){
+  image(xHighlight, highlight1X, highlight1Y, crossSize, crossSize);
+  image(xHighlight, 150, 250, crossSize, crossSize);
+  }else if (cross==2){
+  image(xHighlight, 940, 250, crossSize, crossSize);
+  }else if (cross==3){
+  image(xHighlight, 505, 250, crossSize, crossSize);
+  }else if (cross==4){
+  image(xHighlight, highlight2X, highlight2Y, crossSize, crossSize);
+  image(xHighlight, 230, 90, crossSize, crossSize);
   }
   imageMode(CORNER);//reset back to corner for background images
 
@@ -151,7 +170,7 @@ void draw() {
 
 
   //timer to return to front page when X seconds have passed
-  if (page1==false) {
+  if (page!=0) { // != inequality
     fill(255);
     textFont(TestText);
     timer=millis()-start;  
@@ -160,19 +179,9 @@ void draw() {
       text(countdown, width/2, 50);//placeholder text so we can see timer
     }
     if (timer>timerValue) {
-      page1=true;
+      page=0;
       start=millis();
     }
-  }
-  //for removing highlights and menus when not on correct page
-  if (page3==false) {
-    highlight0=false;
-    highlight1=false;
-    gYogurtPress=false;
-  }
-  if (pageNutrition==false) {
-  }
-  if (pageAllergies==true) {
   }
 }
 
@@ -180,43 +189,38 @@ void mousePressed() {
 
   start=millis();//reset timer when mouse if clicked
 
-  if (page1==true) {
-    page1=false;
-    page2=true;
-  } else if (page2==true) { 
+  if (page==0) {
+    page=1;
+  } else if (page==1) { 
     buttons[0].press();
     buttons[1].press();
     if (buttons[0].pressed==true) { //button 0 clickable area
-      page2=false; //leave page 2
-      page1=true; //go to page 1
+      page=0;
     }
     if (buttons[1].pressed==true) { //button 1 clickable area
-      page2=false; //leave page 2
-      page3=true; //go to page 3
+      page=2;
     }
-  } else if (page3==true&&pageNutrition==false&&pageAllergies==false) {
+  } else if (page==2) {
 
     roundButtons[0].press();
     if (roundButtons[0].pressed==true) {
       gYogurtPress=true;
     }
-  } else if (pageNutrition==true||pageAllergies==true) {
+  } else if (page==3||page==4) {
     buttons[2].press();
     if (buttons[2].pressed==true) {
-      pageNutrition=false;
-      pageAllergies=false;
-      page3=true;
+      page=2;
       highlight2=false;
       vanillaPress=false;
+      cross=0;
     }
-  } 
-  if (pageNutrition==true||pageAllergies==true) {
-    roundButtons[2].press();
+        roundButtons[2].press();
     if (roundButtons[2].pressed==true) {
       vanillaPress=true;
     }
-  }
-  if (page3==true||pageNutrition==true||pageAllergies==true) {
+  } 
+
+  if (page==2||page==3||page==4) {
     /*Like the previouse code assigning menuButton to the array, this add the press functionality and combines it with
      an if statement which uses a custom function to identify which button is pressed*/
     for (button menuButton : menuButtons) {
@@ -245,21 +249,32 @@ void mouseReleased() {
 void evalButton(button menuButton) {
   //println(menuButton.index);
 
-  if (menuButton.index==0 && page3==true) {
-    page3 = false;
-    pageNutrition = true;
-  } else if (menuButton.index==1 && page3==true) {
+  if (menuButton.index==0 && page==2) {
+    page=3;
+    highlight0=false;
+    highlight1=false;
+    gYogurtPress=false;
+  } else if (menuButton.index==1 && page==2) {
     highlight0=true;
     highlight1=false;
-  } else if (menuButton.index==2 && page3==true) {
+  } else if (menuButton.index==2 && page==2) {
     highlight1=true;
     highlight0=false;
-  } else if (menuButton.index==3 && page3==true) {
-    page3 = false;
-    pageAllergies = true;
-  } else if (menuButton.index==3 && pageAllergies==true) {
-    highlight2=true;
-  } else if (menuButton.index==2 && pageNutrition==true) {
+    gYogurtPress=false;
+  } else if (menuButton.index==3 && page==2) {
+    page=4;
+    highlight0=false;
+    highlight1=false;
+    gYogurtPress=false;
+  } else if (menuButton.index==0 && page==4) {
+    cross=1;
+  }else if (menuButton.index==1 && page==4) {
+    cross=2;
+  }else if (menuButton.index==2 && page==4) {
+    cross=3;
+  }else if (menuButton.index==3 && page==4) {
+    cross=4;
+  } else if (menuButton.index==2 && page==3) {
     highlight2=true;
   }
 }
