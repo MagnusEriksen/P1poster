@@ -1,6 +1,6 @@
 //Menu Buttons in an array is inspired by Chrisir on proccessing forums
 
-PImage cheerios;
+PImage Eyecatcher;
 PImage infoBackGround;
 PImage infoPage; 
 PImage highlight;
@@ -33,7 +33,7 @@ int highlight0X, highlight0Y, highlight1X, highlight1Y, highlight2X, highlight2Y
 
 void setup () {
   page=1; //which page we start at (useful for testing individual pages code)
-  cheerios=loadImage ("cheerios.png");
+  Eyecatcher=loadImage ("inter.png");
   infoBackGround=loadImage("inter.png");
   infoPage=loadImage("hyldemenu.png");
   highlight = loadImage("highlight.png");
@@ -89,7 +89,7 @@ void setup () {
 void draw() {
 
   if (page==0) {//Front Page
-    image(cheerios, 0, 0, width, height);
+    image(Eyecatcher, 0, 0, width, height);
     crossNum=0; //removes crosses
     highlightNum=0; //removes highlights
     gYogurtPress=false; //removes picture
