@@ -25,16 +25,16 @@ int menuButtonX, menuButtonY, menuButtonW, menuButtonH;
 int spacing;//spacing between menu buttons
 int start; 
 int timer;
-int timerValue=10000; //milliseconds before poster returns to the front page
+int timerValue=60000; //milliseconds before poster returns to the front page
 int highlightSize;
 int crossSize;
 int highlight0X, highlight0Y, highlight1X, highlight1Y, highlight2X, highlight2Y;
 
 
 void setup () {
-  page=2; //which page we start at (useful for testing individual pages code)
+  page=1; //which page we start at (useful for testing individual pages code)
   cheerios=loadImage ("cheerios.png");
-  infoBackGround=loadImage("hylde.png");
+  infoBackGround=loadImage("inter.png");
   infoPage=loadImage("hyldemenu.png");
   highlight = loadImage("highlight.png");
   cross = loadImage("kryds.png");
@@ -53,9 +53,9 @@ void setup () {
   button0_X=width/2; 
   button0_Y=height/2;
   button0_Size=100;
-  button1_X=width/3;
-  button1_Y=height/3;
-  button1_Size=100;
+  button1_X=5;
+  button1_Y=height-25;
+  button1_Size=20;
   menuButtonW=308;
   menuButtonH=95;
   menuButtonX=width-menuButtonW-65;
@@ -103,6 +103,8 @@ void draw() {
     buttons[1].update();*/
   } else if (page==2) {//page 3
     image(infoPage, 0, 0, width, height);
+    buttons[1].display();
+    buttons[1].update();
   } else if (page==3) {
     image(nutrition, 0, 0, width, height);
   } else if (page==4) {
@@ -199,7 +201,10 @@ void mousePressed() {
     }*/
     page=2;
   } else if (page==2) {
-
+    buttons[1].press();
+    if (buttons[1].pressed==true) { //button 1 clickable area
+      page=0;
+    }
     roundButtons[0].press();
     if (roundButtons[0].pressed==true) {
       gYogurtPress=true;
