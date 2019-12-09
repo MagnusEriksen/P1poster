@@ -4,7 +4,7 @@ PImage cheerios;
 PImage infoBackGround;
 PImage infoPage; 
 PImage highlight;
-PImage xHighlight;
+PImage cross;
 PImage nutrition;
 PImage allergies;
 PImage gYogurt0;
@@ -13,9 +13,8 @@ PImage vanilla0;
 PImage vanilla1;
 PFont TestText;
 int page;
-int cross;
-boolean cross0, cross1, cross2, cross3, cross4, cross5;
-boolean highlight0, highlight1, highlight2, highlight3;
+int crossNum;
+int highlightNum;
 boolean gYogurtPress, vanillaPress;
 button[] buttons = new button[10];
 button[] menuButtons = new button[4];
@@ -38,7 +37,7 @@ void setup () {
   infoBackGround=loadImage("hylde.png");
   infoPage=loadImage("hyldemenu.png");
   highlight = loadImage("highlight.png");
-  xHighlight = loadImage("kryds.png");
+  cross = loadImage("kryds.png");
   TestText = loadFont("TestText.vlw");
   nutrition = loadImage("hyldenmenu.png");
   allergies = loadImage("hyldeamenu.png");
@@ -91,19 +90,17 @@ void draw() {
   
   if (page==0) {//Front Page
     image(cheerios, 0, 0, width, height);
-    highlight0=false;
-    highlight1=false;
-    highlight2=false;
-    cross=0;
+    crossNum=0;
+    highlightNum=0;
     gYogurtPress=false;
     vanillaPress=false;
    
   } else if (page==1) {//page 2
     image(infoBackGround, 0, 0, width, height);
-    buttons[0].display();
+    /*buttons[0].display();
     buttons[0].update();
     buttons[1].display();
-    buttons[1].update();
+    buttons[1].update();*/
   } else if (page==2) {//page 3
     image(infoPage, 0, 0, width, height);
   } else if (page==3) {
@@ -130,29 +127,29 @@ void draw() {
 
   imageMode(CENTER);//set image to center for highlights
   //which highlights appear when menu buttons are pressed
-  if (highlight0==true) {
+  if (highlightNum==1) {
     fill(0);
     //roundbuttons display is only used to check location of buttons COMMENT OUT WHEN NOT NEEDED
     //roundButtons[0].roundDisplay();
     roundButtons[0].roundUpdate();
     image(highlight, highlight0X, highlight0Y, highlightSize, highlightSize);
-  } else if (highlight1==true) {
+  } else if (highlightNum==2) {
     image(highlight, highlight1X, highlight1Y, highlightSize, highlightSize);
     gYogurtPress=false;
-  } else if (highlight2==true) {
+  } else if (highlightNum==3) {
     //roundButtons[2].roundDisplay();
     roundButtons[2].roundUpdate();
     image(highlight, highlight2X, highlight2Y, highlightSize, highlightSize);
-  }else if (cross==1){
-  image(xHighlight, highlight1X, highlight1Y, crossSize, crossSize);
-  image(xHighlight, 150, 250, crossSize, crossSize);
-  }else if (cross==2){
-  image(xHighlight, 940, 250, crossSize, crossSize);
-  }else if (cross==3){
-  image(xHighlight, 505, 250, crossSize, crossSize);
-  }else if (cross==4){
-  image(xHighlight, highlight2X, highlight2Y, crossSize, crossSize);
-  image(xHighlight, 230, 90, crossSize, crossSize);
+  }else if (crossNum==1){
+  image(cross, highlight1X, highlight1Y, crossSize, crossSize);
+  image(cross, 150, 250, crossSize, crossSize);
+  }else if (crossNum==2){
+  image(cross, 940, 250, crossSize, crossSize);
+  }else if (crossNum==3){
+  image(cross, 505, 250, crossSize, crossSize);
+  }else if (crossNum==4){
+  image(cross, highlight2X, highlight2Y, crossSize, crossSize);
+  image(cross, 230, 90, crossSize, crossSize);
   }
   imageMode(CORNER);//reset back to corner for background images
 
@@ -192,14 +189,15 @@ void mousePressed() {
   if (page==0) {
     page=1;
   } else if (page==1) { 
-    buttons[0].press();
+    /*buttons[0].press();
     buttons[1].press();
     if (buttons[0].pressed==true) { //button 0 clickable area
       page=0;
     }
     if (buttons[1].pressed==true) { //button 1 clickable area
       page=2;
-    }
+    }*/
+    page=2;
   } else if (page==2) {
 
     roundButtons[0].press();
@@ -210,9 +208,9 @@ void mousePressed() {
     buttons[2].press();
     if (buttons[2].pressed==true) {
       page=2;
-      highlight2=false;
+      highlightNum=0;
       vanillaPress=false;
-      cross=0;
+      crossNum=0;
     }
         roundButtons[2].press();
     if (roundButtons[2].pressed==true) {
@@ -251,30 +249,26 @@ void evalButton(button menuButton) {
 
   if (menuButton.index==0 && page==2) {
     page=3;
-    highlight0=false;
-    highlight1=false;
+    highlightNum=0;
     gYogurtPress=false;
   } else if (menuButton.index==1 && page==2) {
-    highlight0=true;
-    highlight1=false;
+    highlightNum=1;
   } else if (menuButton.index==2 && page==2) {
-    highlight1=true;
-    highlight0=false;
+    highlightNum=2;
     gYogurtPress=false;
   } else if (menuButton.index==3 && page==2) {
     page=4;
-    highlight0=false;
-    highlight1=false;
+    highlightNum=0;
     gYogurtPress=false;
   } else if (menuButton.index==0 && page==4) {
-    cross=1;
+    crossNum=1;
   }else if (menuButton.index==1 && page==4) {
-    cross=2;
+    crossNum=2;
   }else if (menuButton.index==2 && page==4) {
-    cross=3;
+    crossNum=3;
   }else if (menuButton.index==3 && page==4) {
-    cross=4;
+    crossNum=4;
   } else if (menuButton.index==2 && page==3) {
-    highlight2=true;
+    highlightNum=3;
   }
 }
