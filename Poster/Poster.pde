@@ -87,20 +87,15 @@ void setup () {
 }
 
 void draw() {
-  
+
   if (page==0) {//Front Page
     image(cheerios, 0, 0, width, height);
-    crossNum=0;
-    highlightNum=0;
-    gYogurtPress=false;
-    vanillaPress=false;
-   
+    crossNum=0; //removes crosses
+    highlightNum=0; //removes highlights
+    gYogurtPress=false; //removes picture
+    vanillaPress=false; //removes picture
   } else if (page==1) {//page 2
     image(infoBackGround, 0, 0, width, height);
-    /*buttons[0].display();
-    buttons[0].update();
-    buttons[1].display();
-    buttons[1].update();*/
   } else if (page==2) {//page 3
     image(infoPage, 0, 0, width, height);
     buttons[1].display();
@@ -117,7 +112,7 @@ void draw() {
     buttons[2].update();
   }
 
-  if (page==2||page==3||page==4) {
+  if (page==2||page==3||page==4) {//so that menu buttons show up on all 3 variations of the menu screen
     /*displaying menu buttons. The for loop allows us to iterate over each element in the menuButtons array 
      as the datatype (button class) has been defined as menuButton. This name is then assigned to each element in 
      the origional array with the loop. The display and update draws the functions in the page.*/
@@ -142,16 +137,16 @@ void draw() {
     //roundButtons[2].roundDisplay();
     roundButtons[2].roundUpdate();
     image(highlight, highlight2X, highlight2Y, highlightSize, highlightSize);
-  }else if (crossNum==1){
-  image(cross, highlight1X, highlight1Y, crossSize, crossSize);
-  image(cross, 150, 250, crossSize, crossSize);
-  }else if (crossNum==2){
-  image(cross, 940, 250, crossSize, crossSize);
-  }else if (crossNum==3){
-  image(cross, 505, 250, crossSize, crossSize);
-  }else if (crossNum==4){
-  image(cross, highlight2X, highlight2Y, crossSize, crossSize);
-  image(cross, 230, 90, crossSize, crossSize);
+  } else if (crossNum==1) {
+    image(cross, highlight1X, highlight1Y, crossSize, crossSize);
+    image(cross, 150, 250, crossSize, crossSize);
+  } else if (crossNum==2) {
+    image(cross, 940, 250, crossSize, crossSize);
+  } else if (crossNum==3) {
+    image(cross, 505, 250, crossSize, crossSize);
+  } else if (crossNum==4) {
+    image(cross, highlight2X, highlight2Y, crossSize, crossSize);
+    image(cross, 230, 90, crossSize, crossSize);
   }
   imageMode(CORNER);//reset back to corner for background images
 
@@ -168,18 +163,18 @@ void draw() {
   }
 
 
-  //timer to return to front page when X seconds have passed
+  //timer to return to front page when X seconds have passed - dependant on assigned timerValue int in setup
   if (page!=0) { // != inequality
-    fill(255);
+    fill(255); //for white text on the button
     textFont(TestText);
-    timer=millis()-start;  
+    timer=millis()-start; //time since sketch started minus whichever millis start currently is assigned to 
     int countdown = (timerValue - timer)/1000; //for visual countdown shown in whole seconds
-    if (countdown<5) {
+    if (countdown<5) {//so that the timer is only shown when 5 seconds remain
       text(countdown, width/2, 50);//placeholder text so we can see timer
     }
     if (timer>timerValue) {
       page=0;
-      start=millis();
+      start=millis();//set var start to current millis
     }
   }
 }
@@ -192,13 +187,13 @@ void mousePressed() {
     page=1;
   } else if (page==1) { 
     /*buttons[0].press();
-    buttons[1].press();
-    if (buttons[0].pressed==true) { //button 0 clickable area
-      page=0;
-    }
-    if (buttons[1].pressed==true) { //button 1 clickable area
-      page=2;
-    }*/
+     buttons[1].press();
+     if (buttons[0].pressed==true) { //button 0 clickable area
+     page=0;
+     }
+     if (buttons[1].pressed==true) { //button 1 clickable area
+     page=2;
+     }*/
     page=2;
   } else if (page==2) {
     buttons[1].press();
@@ -217,7 +212,7 @@ void mousePressed() {
       vanillaPress=false;
       crossNum=0;
     }
-        roundButtons[2].press();
+    roundButtons[2].press();
     if (roundButtons[2].pressed==true) {
       vanillaPress=true;
     }
@@ -251,7 +246,6 @@ void mouseReleased() {
  defined as the objects place in the array. This lets us specify individual highlights to individual buttons*/
 void evalButton(button menuButton) {
   //println(menuButton.index);
-
   if (menuButton.index==0 && page==2) {
     page=3;
     highlightNum=0;
@@ -267,11 +261,11 @@ void evalButton(button menuButton) {
     gYogurtPress=false;
   } else if (menuButton.index==0 && page==4) {
     crossNum=1;
-  }else if (menuButton.index==1 && page==4) {
+  } else if (menuButton.index==1 && page==4) {
     crossNum=2;
-  }else if (menuButton.index==2 && page==4) {
+  } else if (menuButton.index==2 && page==4) {
     crossNum=3;
-  }else if (menuButton.index==3 && page==4) {
+  } else if (menuButton.index==3 && page==4) {
     crossNum=4;
   } else if (menuButton.index==2 && page==3) {
     highlightNum=3;
