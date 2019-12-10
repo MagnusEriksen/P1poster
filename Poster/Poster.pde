@@ -32,6 +32,7 @@ int timerValue=60000; //milliseconds before poster returns to the front page
 int highlightSize;
 int crossSize;
 int highlight0X, highlight0Y, highlight1X, highlight1Y, highlight2X, highlight2Y;
+int cross0X, cross0Y, cross1X, cross1Y, cross2X, cross2Y, cross3X, cross3Y;
 
 
 void setup () {
@@ -76,6 +77,14 @@ void setup () {
   highlight1Y=560;
   highlight2X=555;
   highlight2Y=400;
+  cross0X=150;
+  cross0Y=250;
+  cross1X=940;
+  cross1Y=250;
+  cross2X=505;
+  cross2Y=250;
+  cross3X=230;
+  cross3Y=90;
 
   //non loop buttons
   buttons[0]= new button(button0_X, button0_Y, button0_Size, button1_Size);   
@@ -148,14 +157,14 @@ void draw() {
     image(highlight, highlight2X, highlight2Y, highlightSize, highlightSize);
   } else if (crossNum==1) {
     image(cross, highlight1X, highlight1Y, crossSize, crossSize);
-    image(cross, 150, 250, crossSize, crossSize);
+    image(cross, cross0X, cross0Y, crossSize, crossSize);
   } else if (crossNum==2) {
-    image(cross, 940, 250, crossSize, crossSize);
+    image(cross, cross1X, cross1Y, crossSize, crossSize);
   } else if (crossNum==3) {
-    image(cross, 505, 250, crossSize, crossSize);
+    image(cross, cross2X, cross2Y, crossSize, crossSize);
   } else if (crossNum==4) {
     image(cross, highlight2X, highlight2Y, crossSize, crossSize);
-    image(cross, 230, 90, crossSize, crossSize);
+    image(cross, cross3X, cross3Y, crossSize, crossSize);
   }
   imageMode(CORNER);//reset back to corner for background images
 
