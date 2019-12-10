@@ -81,12 +81,12 @@ void setup () {
   highlightSize=300;
   highlight0X=330;
   highlight0Y=255;
-  highlight1X=720;
+  highlight1X=950;
   highlight1Y=560;
   highlight2X=555;
   highlight2Y=400;
-  highlight3X=710;
-  highlight3Y=260;
+  highlight3X=150;
+  highlight3Y=410;
   cross0X=150;
   cross0Y=250;
   cross1X=940;
