@@ -97,16 +97,16 @@ void setup () {
   roundButtons[0] = new button(highlight0X, highlight0Y, highlightSize/1.3);
   roundButtons[1] = new button(highlight1X, highlight1Y, highlightSize/1.3);
   roundButtons[2] = new button(highlight2X, highlight2Y, highlightSize/1.3);
-  roundButtons[3] = new button(500,500,highlightSize/1.3);
-  
+  roundButtons[3] = new button(500, 500, highlightSize/1.3);
+
   //loop for menu buttons
   for (int i = 0; i < menuButtons.length; i++) {
     menuButtons[i] = new button(menuButtonX, menuButtonY+(i*spacing), menuButtonW, menuButtonH, i);
   }
 }
 
-void movieEvent(Movie m){
-m.read();
+void movieEvent(Movie m) {
+  m.read();
 }
 
 void draw() {
@@ -134,7 +134,7 @@ void draw() {
   if (page==3||page==4) {
     fill(255, 0, 0);
     //buttons[2].display();
-    image(cross,width-60, 40, 30, 30);
+    image(cross, width-60, 40, 30, 30);
     buttons[2].update();
   }
 
@@ -166,8 +166,8 @@ void draw() {
     //roundButtons[2].roundDisplay();
     roundButtons[2].roundUpdate();
     image(highlight, highlight2X, highlight2Y, highlightSize, highlightSize);
-  } else if (highlightNum==4){
-  }else if (crossNum==1) {
+  } else if (highlightNum==4) {
+  } else if (crossNum==1) {
     image(cross, highlight1X, highlight1Y, crossSize, crossSize);
     image(cross, cross0X, cross0Y, crossSize, crossSize);
   } else if (crossNum==2) {
@@ -186,12 +186,12 @@ void draw() {
 
     image (gYogurt0, 0, 0);
     image (gYogurt1, 0, 0);
-  }else if (vanillaPress==true) {
+  } else if (vanillaPress==true) {
     image (vanilla0, 0, 0);
     image (vanilla1, 0, 0);
-  }else if (doughnutPress==true){
-  image(doughnut0,0,0);
-  image(doughnut1,0,0);
+  } else if (doughnutPress==true) {
+    image(doughnut0, 0, 0);
+    image(doughnut1, 0, 0);
   }
 
 
@@ -229,76 +229,92 @@ void mousePressed() {
       gYogurtPress=true;
     }
     roundButtons[1].press();
-    if(roundButtons[1].pressed==true){
-    doughnutPress=true;
+    if (roundButtons[1].pressed==true) {
+      doughnutPress=true;
     }
-  } else if (page==3||page==4) {
-    buttons[2].press();
-    if (buttons[2].pressed==true) {
-      page=2;
-      highlightNum=0;
-      vanillaPress=false;
-      crossNum=0;
+  } else if (page==3) {
+    roundButtons[1].press();
+    if (roundButtons[1].pressed==true) {
+      doughnutPress=true;
     }
-    roundButtons[2].press();
-    if (roundButtons[2].pressed==true) {
-      vanillaPress=true;
-    }
-  } 
+      roundButtons[2].press();
+      if (roundButtons[2].pressed==true) {
+        vanillaPress=true;
+      }
 
-  if (page==2||page==3||page==4) {
-    /*Like the previouse code assigning menuButton to the array, this add the press functionality and combines it with
-     an if statement which uses a custom function to identify which button is pressed*/
-    for (button menuButton : menuButtons) {
-      menuButton.press();
-      if (menuButton.pressed==true) {
-        evalButton(menuButton);
+  }
+      if (page==3||page==4) {
+        buttons[2].press();
+        if (buttons[2].pressed==true) {
+          page=2;
+          highlightNum=0;
+          vanillaPress=false;
+          doughnutPress=false;
+          crossNum=0;
+        }
+      } 
+      if (page==2||page==3||page==4) {
+        /*Like the previouse code assigning menuButton to the array, this add the press functionality and combines it with
+         an if statement which uses a custom function to identify which button is pressed*/
+        for (button menuButton : menuButtons) {
+          menuButton.press();
+          if (menuButton.pressed==true) {
+            evalButton(menuButton);
+          }
+        }
       }
     }
-  }
-}
 
-//so that buttons do not keep the on button press color when they are not pressed
-void mouseReleased() {
-  for (button menuButton : menuButtons) {
-    menuButton.release();
-  }
-  buttons[0].release();
-  buttons[1].release();
-  buttons[2].release();
-  roundButtons[2].release();
-}
+    //so that buttons do not keep the on button press color when they are not pressed
+    void mouseReleased() {
+      for (button menuButton : menuButtons) {
+        menuButton.release();
+      }
+      buttons[0].release();
+      buttons[1].release();
+      buttons[2].release();
+      roundButtons[2].release();
+    }
 
 
-/*function for calling elements in array and giving them different functions by checking the variable index which is 
- defined as the objects place in the array. This lets us specify individual highlights to individual buttons*/
-void evalButton(button menuButton) {
-  //println(menuButton.index);
-  if (menuButton.index==0 && page==2) {
-    page=3;
-    highlightNum=0;
-    gYogurtPress=false;
-    doughnutPress=false;
-  } else if (menuButton.index==1 && page==2) {
-    highlightNum=1;
-    doughnutPress=false;
-  } else if (menuButton.index==2 && page==2) {
-    highlightNum=2;
-    gYogurtPress=false;
-  } else if (menuButton.index==3 && page==2) {
-    page=4;
-    highlightNum=0;
-    gYogurtPress=false;
-    doughnutPress=false;
-  } else if (menuButton.index==0 && page==4) {
-    crossNum=1;
-  } else if (menuButton.index==1 && page==4) {
-    crossNum=2;
-  } else if (menuButton.index==2 && page==4) {
-    crossNum=3;
-  } else if (menuButton.index==3 && page==4) {
-    crossNum=4;
-  } else if (menuButton.index==2 && page==3) {
-    highlightNum=3;
-  }
-}
+    /*function for calling elements in array and giving them different functions by checking the variable index which is 
+     defined as the objects place in the array. This lets us specify individual highlights to individual buttons*/
+    void evalButton(button menuButton) {
+      //println(menuButton.index);
+      if (menuButton.index==0 && page==2) {
+        page=3;
+        highlightNum=0;
+        gYogurtPress=false;
+        doughnutPress=false;
+      } else if (menuButton.index==1 && page==2) {
+        highlightNum=1;
+        doughnutPress=false;
+      } else if (menuButton.index==2 && page==2) {
+        highlightNum=2;
+        gYogurtPress=false;
+      } else if (menuButton.index==3 && page==2) {
+        page=4;
+        highlightNum=0;
+        gYogurtPress=false;
+        doughnutPress=false;
+      } else if (menuButton.index==0 && page==4) {
+        crossNum=1;
+      } else if (menuButton.index==1 && page==4) {
+        crossNum=2;
+      } else if (menuButton.index==2 && page==4) {
+        crossNum=3;
+      } else if (menuButton.index==3 && page==4) {
+        crossNum=4;
+      } else if (menuButton.index==0 && page==3) {
+        highlightNum=2;
+        vanillaPress=false;
+        doughnutPress=false;
+      } else if (menuButton.index==2 && page==3) {
+        highlightNum=3;
+        doughnutPress=false;
+      } else if (menuButton.index==3 && page==3) {
+        highlightNum=2;
+        vanillaPress=false;
+        doughnutPress=false;
+      }
+    }
