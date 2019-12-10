@@ -1,6 +1,9 @@
 //Menu Buttons in an array is inspired by Chrisir on proccessing forums
 
-PImage Eyecatcher;
+import processing.video.*;
+
+Movie Eyecatcher;
+//PImage Eyecatcher;
 PImage infoBackGround;
 PImage infoPage; 
 PImage highlight;
@@ -32,8 +35,10 @@ int highlight0X, highlight0Y, highlight1X, highlight1Y, highlight2X, highlight2Y
 
 
 void setup () {
-  page=1; //which page we start at (useful for testing individual pages code)
-  Eyecatcher=loadImage ("inter.png");
+  frameRate(30);
+  page=0; //which page we start at (useful for testing individual pages code)
+  Eyecatcher=new Movie (this, "gifsomikkeerengif.mp4");
+  Eyecatcher.loop();
   infoBackGround=loadImage("inter.png");
   infoPage=loadImage("hyldemenu.png");
   highlight = loadImage("highlight.png");
@@ -84,6 +89,10 @@ void setup () {
   for (int i = 0; i < menuButtons.length; i++) {
     menuButtons[i] = new button(menuButtonX, menuButtonY+(i*spacing), menuButtonW, menuButtonH, i);
   }
+}
+
+void movieEvent(Movie m){
+m.read();
 }
 
 void draw() {
