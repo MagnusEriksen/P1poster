@@ -37,6 +37,7 @@ int highlightSize;
 int crossSize;
 int highlight0X, highlight0Y, highlight1X, highlight1Y, highlight2X, highlight2Y, highlight3X, highlight3Y;
 int cross0X, cross0Y, cross1X, cross1Y, cross2X, cross2Y, cross3X, cross3Y;
+int pressY;
 
 
 void setup () {
@@ -45,12 +46,12 @@ void setup () {
   Eyecatcher=new Movie (this, "standby screen.mp4");
   Eyecatcher.loop();
   infoBackGround=loadImage("inter.png");
-  infoPage=loadImage("hyldemenu.png");
+  infoPage=loadImage("hyldeNYmenu.png");
   highlight = loadImage("highlight.png");
   cross = loadImage("kryds.png");
   TestText = loadFont("TestText.vlw");
-  nutrition = loadImage("hyldenmenu.png");
-  allergies = loadImage("hyldeamenu.png");
+  nutrition = loadImage("hyldeNYnutrition.png");
+  allergies = loadImage("hyldeNYallergies.png");
   gYogurt0 = loadImage("haandg.png");
   gYogurt1 = loadImage("infog.png");
   vanilla0= loadImage("haandvi.png");
@@ -60,7 +61,7 @@ void setup () {
   cMilk0=loadImage("chocoh.png");
   cMilk1=loadImage("chocoi.png");
   imageMode(CORNER);
-  size (1503, 622);
+  size (1503, 771);
   start=millis();//timer is started
 
   //setup for buttons
@@ -73,28 +74,29 @@ void setup () {
   menuButtonW=308;
   menuButtonH=95;
   menuButtonX=width-menuButtonW-65;
-  menuButtonY=38;
+  menuButtonY=187;
   spacing = menuButtonH+55;
 
   //setup for highlights
+  pressY=150;
   crossSize = 150;
   highlightSize=300;
   highlight0X=330;
-  highlight0Y=255;
+  highlight0Y=405;
   highlight1X=950;
-  highlight1Y=560;
+  highlight1Y=710;
   highlight2X=555;
-  highlight2Y=400;
+  highlight2Y=550;
   highlight3X=150;
-  highlight3Y=410;
+  highlight3Y=560;
   cross0X=150;
-  cross0Y=250;
+  cross0Y=400;
   cross1X=940;
-  cross1Y=250;
+  cross1Y=400;
   cross2X=505;
-  cross2Y=250;
+  cross2Y=400;
   cross3X=230;
-  cross3Y=90;
+  cross3Y=240;
 
   //non loop buttons
   buttons[0]= new button(button0_X, button0_Y, button0_Size, button1_Size);   
@@ -116,7 +118,7 @@ void movieEvent(Movie m) {
 }
 
 void draw() {
-println(vanillaPress);
+//println(vanillaPress);
   if (page==0) {//Front Page
     image(Eyecatcher, 0, 0, width, height);
     crossNum=0; //removes crosses
@@ -192,17 +194,17 @@ println(vanillaPress);
   //for when highlight buttons are pressed
   if (gYogurtPress==true) {
 
-    image (gYogurt0, 0, 0);
-    image (gYogurt1, 0, 0);
+    image (gYogurt0, 0, pressY);
+    image (gYogurt1, 0, pressY);
   } else if (vanillaPress==true) {
-    image (vanilla0, 0, 0);
-    image (vanilla1, 0, 0);
+    image (vanilla0, 0, pressY);
+    image (vanilla1, 0, pressY);
   } else if (doughnutPress==true) {
-    image(doughnut0, 0, 0);
-    image(doughnut1, 0, 0);
+    image(doughnut0, 0, pressY);
+    image(doughnut1, 0, pressY);
   } else if (milkPress==true) {
-    image(cMilk0, 0, 0);
-    image(cMilk1, 0, 0);
+    image(cMilk0, 0, pressY);
+    image(cMilk1, 0, pressY);
   }
 
 
