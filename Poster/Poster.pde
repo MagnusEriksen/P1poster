@@ -126,7 +126,8 @@ void draw() {
 
   if (page==3||page==4) {
     fill(255, 0, 0);
-    buttons[2].display();
+    //buttons[2].display();
+    image(cross,width-60, 40, 30, 30);
     buttons[2].update();
   }
 
