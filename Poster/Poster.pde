@@ -116,7 +116,7 @@ void movieEvent(Movie m) {
 }
 
 void draw() {
-
+println(vanillaPress);
   if (page==0) {//Front Page
     image(Eyecatcher, 0, 0, width, height);
     crossNum=0; //removes crosses
@@ -223,7 +223,10 @@ void draw() {
 }
 
 void mousePressed() {
-
+  gYogurtPress=false;
+  vanillaPress=false;
+  milkPress=false;
+  doughnutPress=false;
   start=millis();//reset timer when mouse if clicked
 
   if (page==0) {
