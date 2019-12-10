@@ -38,7 +38,7 @@ int cross0X, cross0Y, cross1X, cross1Y, cross2X, cross2Y, cross3X, cross3Y;
 void setup () {
   frameRate(30);
   page=0; //which page we start at (useful for testing individual pages code)
-  Eyecatcher=new Movie (this, "gifsomikkeerengif.mp4");
+  Eyecatcher=new Movie (this, "standby screen.mp4");
   Eyecatcher.loop();
   infoBackGround=loadImage("inter.png");
   infoPage=loadImage("hyldemenu.png");
