@@ -118,7 +118,8 @@ void movieEvent(Movie m) {
 }
 
 void draw() {
-//println(vanillaPress);
+
+println();
   if (page==0) {//Front Page
     image(Eyecatcher, 0, 0, width, height);
     crossNum=0; //removes crosses
@@ -155,16 +156,23 @@ void draw() {
       menuButton.update();
       menuButton.transDisplay();
     }
-  }
+    roundButtons[0].roundDisplay();
+    roundButtons[1].roundDisplay();
+roundButtons[2].roundDisplay();
+roundButtons[3].roundDisplay();
+    roundButtons[0].roundUpdate();
+    roundButtons[1].roundUpdate();
+roundButtons[2].roundUpdate();
+roundButtons[3].roundUpdate();
+}
 
   imageMode(CENTER);//set image to center for highlights
   //which highlights appear when menu buttons are pressed
-  if (highlightNum==1) {
+    if (highlightNum==1) {
     fill(0);
     //roundbuttons display is only used to check location of buttons COMMENT OUT WHEN NOT NEEDED
     //roundButtons[0].roundDisplay();
     roundButtons[0].roundUpdate();
-    doughnutPress=false;
     image(highlight, highlight0X, highlight0Y, highlightSize, highlightSize);
   } else if (highlightNum==2) {
     image(highlight, highlight1X, highlight1Y, highlightSize, highlightSize);
@@ -193,7 +201,6 @@ void draw() {
 
   //for when highlight buttons are pressed
   if (gYogurtPress==true) {
-
     image (gYogurt0, 0, pressY);
     image (gYogurt1, 0, pressY);
   } else if (vanillaPress==true) {
@@ -244,11 +251,6 @@ void mousePressed() {
     if (roundButtons[0].pressed==true) {
       gYogurtPress=true;
     }
-    roundButtons[1].press();
-    if (roundButtons[1].pressed==true) {
-      doughnutPress=true;
-    }
-  } else if (page==3) {
     roundButtons[1].press();
     if (roundButtons[1].pressed==true) {
       doughnutPress=true;
