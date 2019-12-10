@@ -22,11 +22,10 @@ PFont TestText;
 int page;
 int crossNum;
 int highlightNum;
-boolean gYogurtPress, vanillaPress, doughnutPress, milkPress;
 button[] buttons = new button[10];
 button[] menuButtons = new button[4];
-button[] roundButtons = new button[6];
-int button0_X, button0_Y, button0_Size;
+button[] infoButtons = new button[6];
+int button0_X, button0_Y, button0_SizeX, button0_SizeY;
 int button1_X, button1_Y, button1_Size;
 int menuButtonX, menuButtonY, menuButtonW, menuButtonH;
 int spacing;//spacing between menu buttons
@@ -38,11 +37,11 @@ int crossSize;
 int highlight0X, highlight0Y, highlight1X, highlight1Y, highlight2X, highlight2Y, highlight3X, highlight3Y;
 int cross0X, cross0Y, cross1X, cross1Y, cross2X, cross2Y, cross3X, cross3Y;
 int pressY;
-
+int press=0;
 
 void setup () {
   frameRate(30);
-  page=0; //which page we start at (useful for testing individual pages code)
+  page=2; //which page we start at (useful for testing individual pages code)
   Eyecatcher=new Movie (this, "standby screen.mp4");
   Eyecatcher.loop();
   infoBackGround=loadImage("inter.png");
@@ -65,9 +64,10 @@ void setup () {
   start=millis();//timer is started
 
   //setup for buttons
-  button0_X=width/2; 
-  button0_Y=height/2;
-  button0_Size=100;
+  button0_X=0; 
+  button0_Y=0;
+  button0_SizeX=100;
+  button0_SizeY=100;
   button1_X=5;
   button1_Y=height-25;
   button1_Size=20;
@@ -87,8 +87,8 @@ void setup () {
   highlight1Y=710;
   highlight2X=555;
   highlight2Y=550;
-  highlight3X=150;
-  highlight3Y=560;
+  highlight3X=137;
+  highlight3Y=548;
   cross0X=150;
   cross0Y=400;
   cross1X=940;
@@ -99,13 +99,13 @@ void setup () {
   cross3Y=240;
 
   //non loop buttons
-  buttons[0]= new button(button0_X, button0_Y, button0_Size, button1_Size);   
+  buttons[0]= new button(button0_X, button0_Y, button0_SizeX, button0_SizeY);   
   buttons[1]= new button(button1_X, button1_Y, button1_Size, button1_Size);
-  buttons[2]= new button(width-60, 40, 30, 30);
-  roundButtons[0] = new button(highlight0X, highlight0Y, highlightSize/1.3);
-  roundButtons[1] = new button(highlight1X, highlight1Y, highlightSize/1.3);
-  roundButtons[2] = new button(highlight2X, highlight2Y, highlightSize/1.3);
-  roundButtons[3] = new button(highlight3X, highlight3Y, highlightSize/1.3);
+  buttons[2]= new button(width-60, 120, 30, 30);
+  infoButtons[0] = new button(highlight0X, highlight0Y, 110, 100);
+  infoButtons[1] = new button(highlight1X, highlight1Y, 200, 100);
+  infoButtons[2] = new button(highlight2X, highlight2Y, 100, 100);
+  infoButtons[3] = new button(highlight3X, highlight3Y, 200, 100);
 
   //loop for menu buttons
   for (int i = 0; i < menuButtons.length; i++) {
@@ -119,16 +119,12 @@ void movieEvent(Movie m) {
 
 void draw() {
 
-println();
+  println(press);
   if (page==0) {//Front Page
     image(Eyecatcher, 0, 0, width, height);
     crossNum=0; //removes crosses
     highlightNum=0; //removes highlights
-    //removes picture
-    gYogurtPress=false; 
-    vanillaPress=false;
-    doughnutPress=false;
-    milkPress=false;
+    press=0;
   } else if (page==1) {//page 2
     image(infoBackGround, 0, 0, width, height);
   } else if (page==2) {//page 3
@@ -144,7 +140,7 @@ println();
   if (page==3||page==4) {
     fill(255, 0, 0);
     //buttons[2].display();
-    image(cross, width-60, 40, 30, 30);
+    image(cross, width-60, 120, 30, 30);
     buttons[2].update();
   }
 
@@ -156,35 +152,44 @@ println();
       menuButton.update();
       menuButton.transDisplay();
     }
-    roundButtons[0].roundDisplay();
-    roundButtons[1].roundDisplay();
-roundButtons[2].roundDisplay();
-roundButtons[3].roundDisplay();
-    roundButtons[0].roundUpdate();
-    roundButtons[1].roundUpdate();
-roundButtons[2].roundUpdate();
-roundButtons[3].roundUpdate();
-}
+    rectMode(CENTER);//for fitting with highlight images
+    infoButtons[0].display();
+    infoButtons[1].display();
+    infoButtons[2].display();
+    infoButtons[3].display();
+    infoButtons[0].centerUpdate();
+    infoButtons[1].centerUpdate();
+    infoButtons[2].centerUpdate();
+    infoButtons[3].centerUpdate();
+    //for when info buttons are pressed
+    rectMode(CORNER);
+    if (press==1) {
+      image (gYogurt0, 0, pressY);
+      image (gYogurt1, 0, pressY);
+    } else if (press==2) {
+      image(doughnut0, 0, pressY);
+      image(doughnut1, 0, pressY);
+    } else if (press==3) {
+      image (vanilla0, 0, pressY);
+      image (vanilla1, 0, pressY);
+    } else if (press==4) {
+      image(cMilk0, 0, pressY);
+      image(cMilk1, 0, pressY);
+    }
+  }
+
+
 
   imageMode(CENTER);//set image to center for highlights
   //which highlights appear when menu buttons are pressed
-    if (highlightNum==1) {
+  if (highlightNum==1) {
     fill(0);
-    //roundbuttons display is only used to check location of buttons COMMENT OUT WHEN NOT NEEDED
-    //roundButtons[0].roundDisplay();
-    roundButtons[0].roundUpdate();
     image(highlight, highlight0X, highlight0Y, highlightSize, highlightSize);
   } else if (highlightNum==2) {
     image(highlight, highlight1X, highlight1Y, highlightSize, highlightSize);
-    //roundButtons[1].roundDisplay();
-    roundButtons[1].roundUpdate();
   } else if (highlightNum==3) {
-    //roundButtons[2].roundDisplay();
-    roundButtons[2].roundUpdate();
     image(highlight, highlight2X, highlight2Y, highlightSize, highlightSize);
   } else if (highlightNum==4) {
-    //roundButtons[3].roundDisplay();
-    roundButtons[3].roundUpdate();
     image(highlight, highlight3X, highlight3Y, highlightSize, highlightSize);
   } else if (crossNum==1) {
     image(cross, highlight1X, highlight1Y, crossSize, crossSize);
@@ -198,22 +203,6 @@ roundButtons[3].roundUpdate();
     image(cross, cross3X, cross3Y, crossSize, crossSize);
   }
   imageMode(CORNER);//reset back to corner for background images
-
-  //for when highlight buttons are pressed
-  if (gYogurtPress==true) {
-    image (gYogurt0, 0, pressY);
-    image (gYogurt1, 0, pressY);
-  } else if (vanillaPress==true) {
-    image (vanilla0, 0, pressY);
-    image (vanilla1, 0, pressY);
-  } else if (doughnutPress==true) {
-    image(doughnut0, 0, pressY);
-    image(doughnut1, 0, pressY);
-  } else if (milkPress==true) {
-    image(cMilk0, 0, pressY);
-    image(cMilk1, 0, pressY);
-  }
-
 
   //timer to return to front page when X seconds have passed - dependant on assigned timerValue int in setup
   if (page!=0) { // != inequality
@@ -232,10 +221,7 @@ roundButtons[3].roundUpdate();
 }
 
 void mousePressed() {
-  gYogurtPress=false;
-  vanillaPress=false;
-  milkPress=false;
-  doughnutPress=false;
+
   start=millis();//reset timer when mouse if clicked
 
   if (page==0) {
@@ -247,31 +233,13 @@ void mousePressed() {
     if (buttons[1].pressed==true) { //button 1 clickable area
       page=0;
     }
-    roundButtons[0].press();
-    if (roundButtons[0].pressed==true) {
-      gYogurtPress=true;
-    }
-    roundButtons[1].press();
-    if (roundButtons[1].pressed==true) {
-      doughnutPress=true;
-    }
-    roundButtons[2].press();
-    if (roundButtons[2].pressed==true) {
-      vanillaPress=true;
-    }
-    roundButtons[3].press();
-    if (roundButtons[3].pressed==true) {
-      milkPress=true;
-    }
   }
   if (page==3||page==4) {
     buttons[2].press();
     if (buttons[2].pressed==true) {
       page=2;
       highlightNum=0;
-      vanillaPress=false;
-      doughnutPress=false;
-      milkPress=false;
+      press=0;
       crossNum=0;
     }
   } 
@@ -282,6 +250,27 @@ void mousePressed() {
       menuButton.press();
       if (menuButton.pressed==true) {
         evalButton(menuButton);
+      }
+    }
+
+    if (press>0) {
+      press=0;
+    } else if (press==0) {
+      infoButtons[0].press();
+      if (infoButtons[0].pressed==true) {
+        press=1;
+      }
+      infoButtons[1].press();
+      if (infoButtons[1].pressed==true) {
+        press=2;
+      }
+      infoButtons[2].press();
+      if (infoButtons[2].pressed==true) {
+        press=3;
+      }
+      infoButtons[3].press();
+      if (infoButtons[3].pressed==true) {
+        press=4;
       }
     }
   }
@@ -295,7 +284,10 @@ void mouseReleased() {
   buttons[0].release();
   buttons[1].release();
   buttons[2].release();
-  roundButtons[2].release();
+  infoButtons[0].release();
+  infoButtons[1].release();
+  infoButtons[2].release();
+  infoButtons[3].release();
 }
 
 
@@ -306,19 +298,14 @@ void evalButton(button menuButton) {
   if (menuButton.index==0 && page==2) {
     page=3;
     highlightNum=0;
-    gYogurtPress=false;
-    doughnutPress=false;
+    press=0;
   } else if (menuButton.index==1 && page==2) {
     highlightNum=1;
-    doughnutPress=false;
   } else if (menuButton.index==2 && page==2) {
     highlightNum=2;
-    gYogurtPress=false;
   } else if (menuButton.index==3 && page==2) {
     page=4;
     highlightNum=0;
-    gYogurtPress=false;
-    doughnutPress=false;
   } else if (menuButton.index==0 && page==4) {
     crossNum=1;
   } else if (menuButton.index==1 && page==4) {
@@ -329,21 +316,11 @@ void evalButton(button menuButton) {
     crossNum=4;
   } else if (menuButton.index==0 && page==3) {
     highlightNum=2;
-    vanillaPress=false;
-    doughnutPress=false;
-    milkPress=false;
   } else if (menuButton.index==1 && page==3) {
     highlightNum=4;
-    vanillaPress=false;
-    doughnutPress=false;
   } else if (menuButton.index==2 && page==3) {
     highlightNum=3;
-    doughnutPress=false;
-    milkPress=false;
   } else if (menuButton.index==3 && page==3) {
     highlightNum=2;
-    vanillaPress=false;
-    doughnutPress=false;
-    milkPress=false;
   }
 }

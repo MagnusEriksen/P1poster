@@ -37,11 +37,11 @@ class button {
 
   void display() { //normal buttons
     if (pressed==true) {
-      //fill(0);
+      fill(0);
     } else if (over == true) {
-      fill(155,0,0);
+      fill(155,0,0,155);
     } else {
-
+      fill(255,0,0);
     }
     rect(x, y, w, h);
   }
@@ -67,25 +67,26 @@ class button {
     } else if (over == true) {
       fill(100);
     } else {
-      fill(255);
+      fill(255,150);
     }
     circle(x, y, s);
   }
-
-  /* old code for mouse location detection
-   void click(int mx, int my) {
-   // Check to see if a point is inside the rectangle
-   if (mx > x && mx < x + w && my > y && my < y + h) {
-   on = true;
-   }
-   }*/
-
   // Updates the over field every frame
-  void update() {//for rectangular area
+  void update() {//for corner rectangular area (default)
     if ((mouseX >= x) && (mouseX <= x + w) &&
       (mouseY >= y) && (mouseY <= y + h)) {
       over = true;
     } else {
+      over = false;
+    }
+  }
+  
+  void centerUpdate(){//for center mode rectangle area
+  
+    if((mouseX>=x-(w/2))&&(mouseX<=x+(w/2))&&
+  (mouseY >= y-(h/2)) && (mouseY <= y + (h/2))){
+     over = true;
+  }else {
       over = false;
     }
   }
