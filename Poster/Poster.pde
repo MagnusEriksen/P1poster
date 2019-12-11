@@ -18,39 +18,55 @@ PImage doughnut0;
 PImage doughnut1;
 PImage cMilk0;
 PImage cMilk1;
+PImage milk;
+PImage milkshake;
+PImage musli;
+PImage nuts;
+PImage popcorn;
+PImage reje;
+PImage skyr;
+PImage cod;
+PImage brownie;
+PImage cornflakes;
+PImage energi;
+PImage titel;
 PFont TestText;
 int page;
 int crossNum;
 int highlightNum;
 button[] buttons = new button[10];
 button[] menuButtons = new button[4];
-button[] infoButtons = new button[6];
+button[] infoButtons = new button[30];
 int button0_X, button0_Y, button0_SizeX, button0_SizeY;
 int button1_X, button1_Y, button1_Size;
 int menuButtonX, menuButtonY, menuButtonW, menuButtonH;
 int spacing;//spacing between menu buttons
 int start; 
 int timer;
-int timerValue=60000; //milliseconds before poster returns to the front page
+int timerValue=40000; //milliseconds before poster returns to the front page
 int highlightSize;
 int crossSize;
-int highlight0X, highlight0Y, highlight1X, highlight1Y, highlight2X, highlight2Y, highlight3X, highlight3Y;
+int dupButtonY;
+int gYogurt0X, gYogurt0Y, gYogurt1X, gYogurt1Y, doughnut0X, doughnut0Y, vanilla0X, vanilla0Y, cMilk0X, cMilk0Y;
+int milk0X, milk0Y, milkshake0X, milkshake0Y, musli0X, musli0Y, nuts0X, nuts0Y, popcorn0X, popcorn0Y;
+int reje0X, shrimp0Y, skyr0X, skyr0Y, cod0X, cod0Y, brownie0X, brownie0Y, cornflakes0X, cornflakes0Y, energi0X, energi0Y;
 int cross0X, cross0Y, cross1X, cross1Y, cross2X, cross2Y, cross3X, cross3Y;
 int pressY;
 int press=0;
 
 void setup () {
   frameRate(30);
-  page=2; //which page we start at (useful for testing individual pages code)
+  page=0; //which page we start at (useful for testing individual pages code)
   Eyecatcher=new Movie (this, "standby screen.mp4");
   Eyecatcher.loop();
+  titel=loadImage("titelhej.png");
   infoBackGround=loadImage("inter.png");
-  infoPage=loadImage("hyldeNYmenu.png");
+  infoPage=loadImage("directions.png");
   highlight = loadImage("highlight.png");
   cross = loadImage("kryds.png");
   TestText = loadFont("TestText.vlw");
-  nutrition = loadImage("hyldeNYnutrition.png");
-  allergies = loadImage("hyldeNYallergies.png");
+  nutrition = loadImage("nut.png");
+  allergies = loadImage("all.png");
   gYogurt0 = loadImage("haandg.png");
   gYogurt1 = loadImage("infog.png");
   vanilla0= loadImage("haandvi.png");
@@ -59,6 +75,17 @@ void setup () {
   doughnut1=loadImage("doughi.png");
   cMilk0=loadImage("chocoh.png");
   cMilk1=loadImage("chocoi.png");
+  milk=loadImage("milk.png");
+  milkshake=loadImage("milkshake.png");
+  musli=loadImage("musli.png");
+  nuts=loadImage("nuts.png");
+  popcorn=loadImage("popcorn.png");
+  reje=loadImage("reje.png");
+  skyr=loadImage("skyr.png");
+  cod=loadImage("cod.png");
+  brownie=loadImage("brownie.png");
+  cornflakes=loadImage("cornflakes.png");
+  energi=loadImage("energi.png");
   imageMode(CORNER);
   size (1503, 771);
   start=millis();//timer is started
@@ -81,14 +108,27 @@ void setup () {
   pressY=150;
   crossSize = 150;
   highlightSize=300;
-  highlight0X=330;
-  highlight0Y=405;
-  highlight1X=950;
-  highlight1Y=710;
-  highlight2X=555;
-  highlight2Y=550;
-  highlight3X=137;
-  highlight3Y=548;
+  dupButtonY=150;
+  gYogurt0X=330;
+  gYogurt0Y=400;
+  gYogurt1X=895;
+  gYogurt1Y=100;
+  doughnut0X=950;
+  doughnut0Y=height-75;
+  vanilla0X=555;
+  vanilla0Y=545;
+  cMilk0X=137;
+  cMilk0Y=548;
+  milk0X=740;
+  milkshake0X=710;
+  musli0X=145;
+  nuts0X=370;
+  reje0X=510;
+  skyr0X=240;
+  cod0X=455;
+  brownie0X=725;
+  popcorn0X=940;
+  energi0X=110;
   cross0X=150;
   cross0Y=400;
   cross1X=940;
@@ -102,10 +142,22 @@ void setup () {
   buttons[0]= new button(button0_X, button0_Y, button0_SizeX, button0_SizeY);   
   buttons[1]= new button(button1_X, button1_Y, button1_Size, button1_Size);
   buttons[2]= new button(width-60, 120, 30, 30);
-  infoButtons[0] = new button(highlight0X, highlight0Y, 110, 100);
-  infoButtons[1] = new button(highlight1X, highlight1Y, 200, 100);
-  infoButtons[2] = new button(highlight2X, highlight2Y, 100, 100);
-  infoButtons[3] = new button(highlight3X, highlight3Y, 200, 100);
+  infoButtons[0] = new button(gYogurt0X, gYogurt0Y, 110, 100);
+  infoButtons[1] = new button(doughnut0X, doughnut0Y, 200, 100);
+  infoButtons[2] = new button(vanilla0X, vanilla0Y, 100, 100);
+  infoButtons[3] = new button(cMilk0X, vanilla0Y, 200, 100);
+  infoButtons[4] = new button(milkshake0X, gYogurt0Y, 160, 100);
+  infoButtons[5] = new button(gYogurt1X, gYogurt1Y+dupButtonY, 110, 100);
+  infoButtons[6] = new button(musli0X, doughnut0Y, 230, 100);
+  infoButtons[7] = new button(milk0X, gYogurt1Y+dupButtonY, 150, 100);
+  infoButtons[8] = new button(musli0X, gYogurt0Y, 220, 100);
+  infoButtons[9] = new button(nuts0X, vanilla0Y, 220, 100);
+  infoButtons[10] = new button(reje0X, gYogurt0Y, 220, 100);
+  infoButtons[11] = new button(skyr0X, gYogurt1Y+dupButtonY-8, 85, 112);
+  infoButtons[12] = new button(cod0X, gYogurt1Y+dupButtonY, 200, 100);
+    infoButtons[13] = new button(brownie0X, doughnut0Y, 220, 100);
+  infoButtons[14] = new button(popcorn0X, gYogurt0Y, 250, 100);
+infoButtons[15] = new button(energi0X, gYogurt1Y+dupButtonY, 150, 100);
 
   //loop for menu buttons
   for (int i = 0; i < menuButtons.length; i++) {
@@ -125,6 +177,7 @@ void draw() {
     crossNum=0; //removes crosses
     highlightNum=0; //removes highlights
     press=0;
+    image(titel,0,0);
   } else if (page==1) {//page 2
     image(infoBackGround, 0, 0, width, height);
   } else if (page==2) {//page 3
@@ -143,7 +196,51 @@ void draw() {
     image(cross, width-60, 120, 30, 30);
     buttons[2].update();
   }
-
+  imageMode(CENTER);//set image to center for highlights
+  //which highlights appear when menu buttons are pressed
+  if (highlightNum==1) {
+    fill(0);
+    image(highlight, doughnut0X, doughnut0Y, highlightSize, highlightSize);
+    image(highlight, musli0X, doughnut0Y, highlightSize, highlightSize);
+    image(highlight, skyr0X, gYogurt1Y+dupButtonY-8, highlightSize, highlightSize);
+  } else if (highlightNum==2) {
+    image(highlight, gYogurt0X, gYogurt0Y, highlightSize, highlightSize);
+    image(highlight, milk0X, gYogurt1Y+dupButtonY, highlightSize, highlightSize);
+    image(highlight, skyr0X, gYogurt1Y+dupButtonY-8, highlightSize, highlightSize);
+  } else if (highlightNum==3) {
+    image(highlight, vanilla0X, vanilla0Y, highlightSize, highlightSize);
+    image(highlight, brownie0X, doughnut0Y, highlightSize, highlightSize);
+  } else if (highlightNum==4) {
+    image(highlight, cMilk0X, cMilk0Y, highlightSize, highlightSize);
+    image(highlight, milk0X, gYogurt1Y+dupButtonY, highlightSize, highlightSize);
+    image(highlight, cod0X, gYogurt1Y+dupButtonY, highlightSize, highlightSize);
+    image(highlight, reje0X, gYogurt0Y, highlightSize, highlightSize);
+  } else if (highlightNum==5){
+    image(highlight, cod0X, gYogurt1Y+dupButtonY, highlightSize, highlightSize);
+    image(highlight, reje0X, gYogurt0Y, highlightSize, highlightSize);
+    image(highlight, milk0X, gYogurt1Y+dupButtonY, highlightSize, highlightSize);
+      image(highlight, doughnut0X, doughnut0Y, highlightSize, highlightSize);
+  image(highlight, musli0X, doughnut0Y, highlightSize, highlightSize);
+    image(highlight, skyr0X, gYogurt1Y+dupButtonY-8, highlightSize, highlightSize);
+  }else if (highlightNum==6){
+  image(highlight, doughnut0X, doughnut0Y, highlightSize, highlightSize);
+  image(highlight, musli0X, doughnut0Y, highlightSize, highlightSize);
+    image(highlight, skyr0X, gYogurt1Y+dupButtonY-8, highlightSize, highlightSize);
+    
+}else if (crossNum==1) {
+    image(cross, doughnut0X, doughnut0Y, crossSize, crossSize);
+    image(cross, skyr0X, gYogurt1Y+dupButtonY-8, crossSize, crossSize);
+    image(cross, musli0X, doughnut0Y, crossSize, crossSize);
+  } else if (crossNum==2) {
+    image(cross, musli0X, gYogurt0Y, crossSize, crossSize);
+  } else if (crossNum==3) {
+    image(cross, reje0X, gYogurt0Y, crossSize, crossSize);
+  } else if (crossNum==4) {
+    image(cross, vanilla0X, vanilla0Y, crossSize, crossSize);
+    image(cross, brownie0X, doughnut0Y, crossSize, crossSize);
+  }
+  imageMode(CORNER);//reset back to corner for background images
+  
   if (page==2||page==3||page==4) {//so that menu buttons show up on all 3 variations of the menu screen
     /*displaying menu buttons. The for loop allows us to iterate over each element in the menuButtons array 
      as the datatype (button class) has been defined as menuButton. This name is then assigned to each element in 
@@ -153,14 +250,41 @@ void draw() {
       menuButton.transDisplay();
     }
     rectMode(CENTER);//for fitting with highlight images
+    /*
     infoButtons[0].display();
     infoButtons[1].display();
     infoButtons[2].display();
     infoButtons[3].display();
+    infoButtons[4].display();
+    infoButtons[5].display();
+    infoButtons[6].display();
+    infoButtons[7].display();
+    infoButtons[8].display();
+    infoButtons[9].display();
+    infoButtons[10].display();
+    */
+    //infoButtons[11].display();
+    infoButtons[11].centerUpdate();
+    //infoButtons[12].display();
+    infoButtons[12].centerUpdate();
+    //infoButtons[13].display();
+    infoButtons[13].centerUpdate();
+    //infoButtons[14].display();
+    infoButtons[14].centerUpdate();
+    //infoButtons[15].display();
+    infoButtons[15].centerUpdate();
+    
     infoButtons[0].centerUpdate();
     infoButtons[1].centerUpdate();
     infoButtons[2].centerUpdate();
     infoButtons[3].centerUpdate();
+    infoButtons[4].centerUpdate();
+    infoButtons[5].centerUpdate();
+    infoButtons[6].centerUpdate();
+    infoButtons[7].centerUpdate();
+    infoButtons[8].centerUpdate();
+    infoButtons[9].centerUpdate();
+    infoButtons[10].centerUpdate();
     //for when info buttons are pressed
     rectMode(CORNER);
     if (press==1) {
@@ -175,34 +299,30 @@ void draw() {
     } else if (press==4) {
       image(cMilk0, 0, pressY);
       image(cMilk1, 0, pressY);
+    } else if (press==5) {
+      image(milk, 0, 0);
+    } else if (press==6) {
+      image(milkshake, 0, 0);
+    } else if (press==7) {
+      image(musli, 0, 0);
+    } else if (press==8) {
+      image(nuts, 0, 0);
+    } else if (press==9) {
+      image(popcorn, 0, 0);
+    } else if (press==10) {
+      image(reje, 0, 0);
+    } else if (press==11) {
+      image(skyr, 0, 0);
+    }else if (press==12) {
+      image(cod, 0, 0);
+    }else if (press==13) {
+      image(brownie, 0, 0);
+    }else if (press==14) {
+      image(cornflakes, 0, 0);
+    }else if (press==15) {
+      image(energi, 0, 0);
     }
   }
-
-
-
-  imageMode(CENTER);//set image to center for highlights
-  //which highlights appear when menu buttons are pressed
-  if (highlightNum==1) {
-    fill(0);
-    image(highlight, highlight0X, highlight0Y, highlightSize, highlightSize);
-  } else if (highlightNum==2) {
-    image(highlight, highlight1X, highlight1Y, highlightSize, highlightSize);
-  } else if (highlightNum==3) {
-    image(highlight, highlight2X, highlight2Y, highlightSize, highlightSize);
-  } else if (highlightNum==4) {
-    image(highlight, highlight3X, highlight3Y, highlightSize, highlightSize);
-  } else if (crossNum==1) {
-    image(cross, highlight1X, highlight1Y, crossSize, crossSize);
-    image(cross, cross0X, cross0Y, crossSize, crossSize);
-  } else if (crossNum==2) {
-    image(cross, cross1X, cross1Y, crossSize, crossSize);
-  } else if (crossNum==3) {
-    image(cross, cross2X, cross2Y, crossSize, crossSize);
-  } else if (crossNum==4) {
-    image(cross, highlight2X, highlight2Y, crossSize, crossSize);
-    image(cross, cross3X, cross3Y, crossSize, crossSize);
-  }
-  imageMode(CORNER);//reset back to corner for background images
 
   //timer to return to front page when X seconds have passed - dependant on assigned timerValue int in setup
   if (page!=0) { // != inequality
@@ -257,21 +377,52 @@ void mousePressed() {
       press=0;
     } else if (press==0) {
       infoButtons[0].press();
-      if (infoButtons[0].pressed==true) {
-        press=1;
-      }
       infoButtons[1].press();
-      if (infoButtons[1].pressed==true) {
-        press=2;
-      }
       infoButtons[2].press();
-      if (infoButtons[2].pressed==true) {
-        press=3;
-      }
       infoButtons[3].press();
-      if (infoButtons[3].pressed==true) {
+      infoButtons[4].press();
+      infoButtons[5].press();
+      infoButtons[6].press();
+      infoButtons[7].press();
+      infoButtons[8].press();
+      infoButtons[9].press();
+      infoButtons[10].press();
+      infoButtons[11].press();
+      infoButtons[12].press();
+      infoButtons[13].press();
+      infoButtons[14].press();
+      infoButtons[15].press();
+      if (infoButtons[0].pressed==true||infoButtons[5].pressed==true) {
+        press=1;
+      }else if (infoButtons[1].pressed==true) {
+        press=2;
+      }else if (infoButtons[2].pressed==true) {
+        press=3;
+      }else if (infoButtons[3].pressed==true) {
         press=4;
-      }
+      }else if (infoButtons[7].pressed==true){
+      press=5;
+      }else if (infoButtons[4].pressed==true){
+      press=6;
+      }else if (infoButtons[6].pressed==true){
+      press=7;
+      }else if (infoButtons[8].pressed==true){
+      press=8;
+      }else if(infoButtons[9].pressed==true){
+      press=9;
+      }else if(infoButtons[10].pressed==true){
+      press=10;
+      }else if(infoButtons[11].pressed==true){
+      press=11;
+    }else if(infoButtons[12].pressed==true){
+      press=12;
+    }else if(infoButtons[13].pressed==true){
+      press=13;
+    }else if(infoButtons[14].pressed==true){
+      press=14;
+    }else if(infoButtons[15].pressed==true){
+      press=15;
+    }
     }
   }
 }
@@ -284,10 +435,6 @@ void mouseReleased() {
   buttons[0].release();
   buttons[1].release();
   buttons[2].release();
-  infoButtons[0].release();
-  infoButtons[1].release();
-  infoButtons[2].release();
-  infoButtons[3].release();
 }
 
 
@@ -300,9 +447,9 @@ void evalButton(button menuButton) {
     highlightNum=0;
     press=0;
   } else if (menuButton.index==1 && page==2) {
-    highlightNum=1;
+    highlightNum=5;
   } else if (menuButton.index==2 && page==2) {
-    highlightNum=2;
+    highlightNum=6;
   } else if (menuButton.index==3 && page==2) {
     page=4;
     highlightNum=0;
@@ -321,6 +468,6 @@ void evalButton(button menuButton) {
   } else if (menuButton.index==2 && page==3) {
     highlightNum=3;
   } else if (menuButton.index==3 && page==3) {
-    highlightNum=2;
+    highlightNum=1;
   }
 }
