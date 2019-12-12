@@ -4,32 +4,10 @@ import processing.video.*;
 
 Movie Eyecatcher;
 //PImage Eyecatcher;
-PImage infoBackGround;
-PImage infoPage; 
-PImage highlight;
-PImage cross;
-PImage nutrition;
-PImage allergies;
-PImage gYogurt0;
-PImage gYogurt1;
-PImage vanilla0;
-PImage vanilla1;
-PImage doughnut0;
-PImage doughnut1;
-PImage cMilk0;
-PImage cMilk1;
-PImage milk;
-PImage milkshake;
-PImage musli;
-PImage nuts;
-PImage popcorn;
-PImage reje;
-PImage skyr;
-PImage cod;
-PImage brownie;
-PImage cornflakes;
-PImage energi;
-PImage titel;
+PImage infoBackGround, infoPage, highlight, cross, nutrition;
+PImage allergies, gYogurt0, gYogurt1, vanilla0, vanilla1, doughnut0;
+PImage doughnut1, cMilk0, cMilk1, milk, milkshake, musli, nuts;
+PImage popcorn, reje, skyr, cod, brownie, cornflakes, energi, titel;
 PFont TestText;
 int page;
 int crossNum;
@@ -46,11 +24,12 @@ int timer;
 int timerValue=40000; //milliseconds before poster returns to the front page
 int highlightSize;
 int crossSize;
-int dupButtonY;
-int gYogurt0X, gYogurt0Y, gYogurt1X, topshelfY, doughnut0X, doughnut0Y, vanilla0X, vanilla0Y, cMilk0X, cMilk0Y;
-int milk0X, milk0Y, milkshake0X, milkshake0Y, musli0X, musli0Y, nuts0X, nuts0Y, popcorn0X, popcorn0Y;
-int reje0X, shrimp0Y, skyr0X, skyr0Y, cod0X, cod0Y, brownie0X, brownie0Y, cornflakes0X, cornflakes0Y, energi0X, energi0Y;
+int topShelfY, topMiddelShelfY,bottomMiddelShelfY, bottomShelfY, gYogurt0X, gYogurt1X, doughnut0X, vanilla0X, cMilk0X;
+int milk0X, milkshake0X, musli0X, popcornX, nuts0Y, cornflakesX, popcorn0Y;
+int reje0X, skyr0X, cod0X, brownie0X, cornflakes0X, energi0X;
+int groceryH;
 int cross0X, cross0Y, cross1X, cross1Y, cross2X, cross2Y, cross3X, cross3Y;
+int crossButtonX, crossButtonY, crossButtonSize;
 int pressY;
 int press=0;
 
@@ -105,29 +84,29 @@ void setup () {
   spacing = menuButtonH+55;
 
   //setup for highlights
-  pressY=150;
-  crossSize = 150;
-  highlightSize=300;
-  dupButtonY=150;
+  pressY=150; //Y-axis offset for some info images
+  crossSize = 150;//size of cross images
+  highlightSize=300;//size of highlights
+//standardized location for groceries depending on shelf Y-axis location
+  topShelfY=250;
+  topMiddelShelfY=400;
+  bottomMiddelShelfY=545;
+  bottomShelfY=height-75;
+  groceryH=100;//shared height for all groceries(used for infobuttons)
   gYogurt0X=330;
-  gYogurt0Y=400;
   gYogurt1X=895;
-  topshelfY=250;
   doughnut0X=950;
-  doughnut0Y=height-75;
   vanilla0X=555;
-  vanilla0Y=545;
   cMilk0X=137;
-  cMilk0Y=548;
   milk0X=740;
   milkshake0X=710;
   musli0X=145;
-  nuts0X=370;
+  popcornX=370;
   reje0X=510;
   skyr0X=240;
   cod0X=455;
   brownie0X=725;
-  popcorn0X=940;
+  cornflakesX=940;
   energi0X=110;
   cross0X=150;
   cross0Y=400;
@@ -137,27 +116,30 @@ void setup () {
   cross2Y=400;
   cross3X=230;
   cross3Y=240;
+  crossButtonX=width-60;
+  crossButtonY=120;
+  crossButtonSize=30;
 
   //non loop buttons
   buttons[0]= new button(button0_X, button0_Y, button0_SizeX, button0_SizeY);   
   buttons[1]= new button(button1_X, button1_Y, button1_Size, button1_Size);
-  buttons[2]= new button(width-60, 120, 30, 30);
-  infoButtons[0] = new button(gYogurt0X, gYogurt0Y, 110, 100); //Greek yogurt button
-  infoButtons[1] = new button(doughnut0X, doughnut0Y, 200, 100); //vegan doughnut button
-  infoButtons[2] = new button(vanilla0X, vanilla0Y, 100, 100); //vanilla ice cream button
-  infoButtons[3] = new button(cMilk0X, vanilla0Y, 200, 100); //chocolate milk button
-  infoButtons[4] = new button(milkshake0X, gYogurt0Y, 160, 100); //milkshake button
-  infoButtons[5] = new button(gYogurt1X, topshelfY, 110, 100); //Greek yogurt button
-  infoButtons[6] = new button(musli0X, doughnut0Y, 230, 100); //musli button
-  infoButtons[7] = new button(milk0X, topshelfY, 150, 100); //skim milk button
-  infoButtons[8] = new button(musli0X, gYogurt0Y, 220, 100);//nuts button
-  infoButtons[9] = new button(nuts0X, vanilla0Y, 220, 100); //popcorn button
-  infoButtons[10] = new button(reje0X, gYogurt0Y, 220, 100);//shrimp button
-  infoButtons[11] = new button(skyr0X, topshelfY, 85, 112);//skyr button
-  infoButtons[12] = new button(cod0X, topshelfY, 200, 100);//cod button
-  infoButtons[13] = new button(brownie0X, doughnut0Y, 220, 100);//brownie button
-  infoButtons[14] = new button(popcorn0X, gYogurt0Y, 250, 100);//cornflakes button
-  infoButtons[15] = new button(energi0X, topshelfY, 150, 100);//energy drink button
+  buttons[2]= new button(crossButtonX, crossButtonY, crossButtonSize, crossButtonSize);
+  infoButtons[0] = new button(gYogurt0X, topMiddelShelfY, 110, groceryH); //Greek yogurt button
+  infoButtons[1] = new button(doughnut0X, bottomShelfY, 200, groceryH); //vegan doughnut button
+  infoButtons[2] = new button(vanilla0X, bottomMiddelShelfY, 100, groceryH); //vanilla ice cream button
+  infoButtons[3] = new button(cMilk0X, bottomMiddelShelfY, 200, groceryH); //chocolate milk button
+  infoButtons[4] = new button(milkshake0X, topMiddelShelfY, 160, groceryH); //milkshake button
+  infoButtons[5] = new button(gYogurt1X, topShelfY, 110, groceryH); //Greek yogurt top shelf button
+  infoButtons[6] = new button(musli0X, bottomShelfY, 230, groceryH); //musli button
+  infoButtons[7] = new button(milk0X, topShelfY, 150, groceryH); //skim milk button
+  infoButtons[8] = new button(musli0X, topMiddelShelfY, 230, groceryH);//nuts button
+  infoButtons[9] = new button(popcornX, bottomMiddelShelfY, 220, groceryH); //popcorn button
+  infoButtons[10] = new button(reje0X, topMiddelShelfY, 220, groceryH);//shrimp button
+  infoButtons[11] = new button(skyr0X, topShelfY, 85, groceryH);//skyr button
+  infoButtons[12] = new button(cod0X, topShelfY, 200, groceryH);//cod button
+  infoButtons[13] = new button(brownie0X, bottomShelfY, 220, groceryH);//brownie button
+  infoButtons[14] = new button(cornflakesX, topMiddelShelfY, 250, groceryH);//cornflakes button
+  infoButtons[15] = new button(energi0X, topShelfY, 150, groceryH);//energy drink button
 
   //loop for menu buttons
   for (int i = 0; i < menuButtons.length; i++) {
@@ -193,50 +175,49 @@ void draw() {
   if (page==3||page==4) {
     fill(255, 0, 0);
     //buttons[2].display();
-    image(cross, width-60, 120, 30, 30);
+    image(cross, crossButtonX, crossButtonY, crossButtonSize, crossButtonSize);
     buttons[2].update();
   }
   imageMode(CENTER);//set image to center for highlights
   //which highlights appear when menu buttons are pressed
-  if (highlightNum==1) {
-    fill(0);
-    image(highlight, doughnut0X, doughnut0Y, highlightSize, highlightSize);
-    image(highlight, musli0X, doughnut0Y, highlightSize, highlightSize);
-    image(highlight, skyr0X, topshelfY, highlightSize, highlightSize);
-  } else if (highlightNum==2) {
-    image(highlight, gYogurt0X, gYogurt0Y, highlightSize, highlightSize);
-    image(highlight, milk0X, topshelfY, highlightSize, highlightSize);
-    image(highlight, skyr0X, topshelfY, highlightSize, highlightSize);
-  } else if (highlightNum==3) {
-    image(highlight, vanilla0X, vanilla0Y, highlightSize, highlightSize);
-    image(highlight, brownie0X, doughnut0Y, highlightSize, highlightSize);
-  } else if (highlightNum==4) {
-    image(highlight, cMilk0X, cMilk0Y, highlightSize, highlightSize);
-    image(highlight, milk0X, topshelfY, highlightSize, highlightSize);
-    image(highlight, cod0X, topshelfY, highlightSize, highlightSize);
-    image(highlight, reje0X, gYogurt0Y, highlightSize, highlightSize);
-  } else if (highlightNum==5) {
-    image(highlight, cod0X, topshelfY, highlightSize, highlightSize);
-    image(highlight, reje0X, gYogurt0Y, highlightSize, highlightSize);
-    image(highlight, milk0X, topshelfY, highlightSize, highlightSize);
-    image(highlight, doughnut0X, doughnut0Y, highlightSize, highlightSize);
-    image(highlight, musli0X, doughnut0Y, highlightSize, highlightSize);
-    image(highlight, skyr0X, topshelfY, highlightSize, highlightSize);
-  } else if (highlightNum==6) {
-    image(highlight, doughnut0X, doughnut0Y, highlightSize, highlightSize);
-    image(highlight, musli0X, doughnut0Y, highlightSize, highlightSize);
-    image(highlight, skyr0X, topshelfY, highlightSize, highlightSize);
-  } else if (crossNum==1) {
-    image(cross, doughnut0X, doughnut0Y, crossSize, crossSize);
-    image(cross, skyr0X, topshelfY, crossSize, crossSize);
-    image(cross, musli0X, doughnut0Y, crossSize, crossSize);
-  } else if (crossNum==2) {
-    image(cross, musli0X, gYogurt0Y, crossSize, crossSize);
-  } else if (crossNum==3) {
-    image(cross, reje0X, gYogurt0Y, crossSize, crossSize);
-  } else if (crossNum==4) {
-    image(cross, vanilla0X, vanilla0Y, crossSize, crossSize);
-    image(cross, brownie0X, doughnut0Y, crossSize, crossSize);
+  if (highlightNum==1) {//low carb highlights
+    image(highlight, gYogurt0X, topMiddelShelfY, highlightSize, highlightSize);
+    image(highlight, milk0X, topShelfY, highlightSize, highlightSize);
+    image(highlight, skyr0X, topShelfY, highlightSize, highlightSize);
+  } else if (highlightNum==2) {//sugar free highlights
+    image(highlight, cMilk0X, bottomMiddelShelfY, highlightSize, highlightSize);
+    image(highlight, milk0X, topShelfY, highlightSize, highlightSize);
+    image(highlight, cod0X, topShelfY, highlightSize, highlightSize);
+    image(highlight, reje0X, topMiddelShelfY, highlightSize, highlightSize);
+  } else if (highlightNum==3) {//high fat highlights
+    image(highlight, vanilla0X, bottomMiddelShelfY, highlightSize, highlightSize);
+    image(highlight, brownie0X, bottomShelfY, highlightSize, highlightSize);
+  } else if (highlightNum==4) {//plant based highlights
+    image(highlight, doughnut0X, bottomShelfY, highlightSize, highlightSize);
+    image(highlight, musli0X, bottomShelfY, highlightSize, highlightSize);
+    image(highlight, skyr0X, topShelfY, highlightSize, highlightSize);
+  } else if (highlightNum==5) { // organic highlights
+    image(highlight, cod0X, topShelfY, highlightSize, highlightSize);
+    image(highlight, reje0X, topMiddelShelfY, highlightSize, highlightSize);
+    image(highlight, milk0X, topShelfY, highlightSize, highlightSize);
+    image(highlight, doughnut0X, bottomShelfY, highlightSize, highlightSize);
+    image(highlight, musli0X, bottomShelfY, highlightSize, highlightSize);
+    image(highlight, skyr0X, topShelfY, highlightSize, highlightSize);
+  } else if (highlightNum==6) { //vegan highlights
+    image(highlight, doughnut0X, bottomShelfY, highlightSize, highlightSize);
+    image(highlight, musli0X, bottomShelfY, highlightSize, highlightSize);
+    image(highlight, skyr0X, topShelfY, highlightSize, highlightSize);
+  } else if (crossNum==1) {//vegetables highlights
+    image(cross, doughnut0X, bottomShelfY, crossSize, crossSize);
+    image(cross, skyr0X, topShelfY, crossSize, crossSize);
+    image(cross, musli0X, bottomShelfY, crossSize, crossSize);
+  } else if (crossNum==2) {//tree nuts highlights
+    image(cross, musli0X, topMiddelShelfY, crossSize, crossSize);
+  } else if (crossNum==3) {//shellfish highlights
+    image(cross, reje0X, topMiddelShelfY, crossSize, crossSize);
+  } else if (crossNum==4) {//eggs highlights
+    image(cross, vanilla0X, bottomMiddelShelfY, crossSize, crossSize);
+    image(cross, brownie0X, bottomShelfY, crossSize, crossSize);
   }
   imageMode(CORNER);//reset back to corner for background images
 
@@ -249,24 +230,24 @@ void draw() {
       menuButton.transDisplay();
     }
     rectMode(CENTER);//for fitting with highlight images
-    /*
+    ///*
     infoButtons[0].display();
-    infoButtons[1].display();
-    infoButtons[2].display();
-    infoButtons[3].display();
-    infoButtons[4].display();
-    infoButtons[5].display();
-    infoButtons[6].display();
-    infoButtons[7].display();
-    infoButtons[8].display();
-    infoButtons[9].display();
-    infoButtons[10].display();
-    infoButtons[11].display();
-    infoButtons[12].display();
-    infoButtons[13].display();
-    infoButtons[14].display();
-    infoButtons[15].display();
-    */
+     infoButtons[1].display();
+     infoButtons[2].display();
+     infoButtons[3].display();
+     infoButtons[4].display();
+     infoButtons[5].display();
+     infoButtons[6].display();
+     infoButtons[7].display();
+     infoButtons[8].display();
+     infoButtons[9].display();
+     infoButtons[10].display();
+     infoButtons[11].display();
+     infoButtons[12].display();
+     infoButtons[13].display();
+     infoButtons[14].display();
+     infoButtons[15].display();
+     //*/
     infoButtons[0].centerUpdate();
     infoButtons[1].centerUpdate();
     infoButtons[2].centerUpdate();
@@ -323,19 +304,19 @@ void draw() {
   }
 
   //timer to return to front page when X seconds have passed - dependant on assigned timerValue int in setup
-  if (page!=0) { // != inequality
-    fill(255); //for white text on the button
-    textFont(TestText);
-    timer=millis()-start; //time since sketch started minus whichever millis start currently is assigned to 
-    int countdown = (timerValue - timer)/1000; //for visual countdown shown in whole seconds
-    if (countdown<5) {//so that the timer is only shown when 5 seconds remain
-      text(countdown, width/2, 50);//placeholder text so we can see timer
-    }
-    if (timer>timerValue) {
-      page=0;
-      start=millis();//set var start to current millis
-    }
-  }
+  /*if (page!=0) { // != inequality
+   fill(255); //for white text on the button
+   textFont(TestText);
+   timer=millis()-start; //time since sketch started minus whichever millis start currently is assigned to 
+   int countdown = (timerValue - timer)/1000; //for visual countdown shown in whole seconds
+   if (countdown<5) {//so that the timer is only shown when 5 seconds remain
+   text(countdown, width/2, 50);//placeholder text so we can see timer
+   }
+   if (timer>timerValue) {
+   page=0;
+   start=millis();//set var start to current millis
+   }
+   }*/
 }
 
 void mousePressed() {
@@ -430,8 +411,6 @@ void mouseReleased() {
   for (button menuButton : menuButtons) {
     menuButton.release();
   }
-  buttons[0].release();
-  buttons[1].release();
   buttons[2].release();
 }
 
@@ -460,12 +439,12 @@ void evalButton(button menuButton) {
   } else if (menuButton.index==3 && page==4) {
     crossNum=4;
   } else if (menuButton.index==0 && page==3) {
-    highlightNum=2;
+    highlightNum=1;
   } else if (menuButton.index==1 && page==3) {
-    highlightNum=4;
+    highlightNum=2;
   } else if (menuButton.index==2 && page==3) {
     highlightNum=3;
   } else if (menuButton.index==3 && page==3) {
-    highlightNum=1;
+    highlightNum=4;
   }
 }
