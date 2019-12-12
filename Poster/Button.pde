@@ -39,9 +39,18 @@ class button {
     if (pressed==true) {
       fill(0);
     } else if (over == true) {
-      fill(155,0,0,155);
+      fill(155,0,0);
     } else {
       fill(255,0,0);
+    }
+    rect(x, y, w, h);
+  }
+
+  void testDisplay() { //for testing location of invisible buttons
+    if (over == true) {
+      fill(155,155);
+    } else {
+      fill(255,200);
     }
     rect(x, y, w, h);
   }

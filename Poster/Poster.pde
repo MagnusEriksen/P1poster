@@ -3,7 +3,6 @@
 import processing.video.*;
 
 Movie Eyecatcher;
-//PImage Eyecatcher;
 PImage infoBackGround;
 PImage infoPage; 
 PImage highlight;
@@ -34,9 +33,9 @@ PFont TestText;
 int page;
 int crossNum;
 int highlightNum;
-button[] buttons = new button[10];
+button[] buttons = new button[3];
 button[] menuButtons = new button[4];
-button[] infoButtons = new button[30];
+button[] infoButtons = new button[16];
 int button0_X, button0_Y, button0_SizeX, button0_SizeY;
 int button1_X, button1_Y, button1_Size;
 int menuButtonX, menuButtonY, menuButtonW, menuButtonH;
@@ -174,9 +173,9 @@ void draw() {
   println(press);
   if (page==0) {//Front Page
     image(Eyecatcher, 0, 0, width, height);
-    crossNum=0; //removes crosses
-    highlightNum=0; //removes highlights
-    press=0;
+    crossNum=0; //doesn't redraw crosses if returned to eyecatcher
+    highlightNum=0; //doesn't redraw highlights if returned to eyecatcher
+    press=0; //doesn't redraw info images if returned to eyecatcher
     image(titel, 0, 0);
   } else if (page==1) {//page 2
     image(infoBackGround, 0, 0, width, height);
@@ -250,22 +249,22 @@ void draw() {
     }
     rectMode(CENTER);//for fitting with highlight images
     /*
-    infoButtons[0].display();
-    infoButtons[1].display();
-    infoButtons[2].display();
-    infoButtons[3].display();
-    infoButtons[4].display();
-    infoButtons[5].display();
-    infoButtons[6].display();
-    infoButtons[7].display();
-    infoButtons[8].display();
-    infoButtons[9].display();
-    infoButtons[10].display();
-    infoButtons[11].display();
-    infoButtons[12].display();
-    infoButtons[13].display();
-    infoButtons[14].display();
-    infoButtons[15].display();
+    infoButtons[0].testDisplay();
+    infoButtons[1].testDisplay();
+    infoButtons[2].testDisplay();
+    infoButtons[3].testDisplay();
+    infoButtons[4].testDisplay();
+    infoButtons[5].testDisplay();
+    infoButtons[6].testDisplay();
+    infoButtons[7].testDisplay();
+    infoButtons[8].testDisplay();
+    infoButtons[9].testDisplay();
+    infoButtons[10].testDisplay();
+    infoButtons[11].testDisplay();
+    infoButtons[12].testDisplay();
+    infoButtons[13].testDisplay();
+    infoButtons[14].testDisplay();
+    infoButtons[15].testDisplay();
     */
     infoButtons[0].centerUpdate();
     infoButtons[1].centerUpdate();
